@@ -26,7 +26,7 @@
 	                        <div align="center">
 						      <?php
 						        if (isset($mensaje)){
-						          echo '<span class="label label-danger">'.$mensaje.'</span>'; 
+								  echo '<span class="text-danger">'.$mensaje.'</span>';
 						          echo '<br><br>';
 						        } 
 						      ?>

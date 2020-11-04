@@ -11,7 +11,6 @@ class Mlogin extends CI_Model
 
 	public function ingresar($user,$psw){
 		$query = "IFNULL(uf_login('". $user. "','".$psw."'),0) AS respuesta";
-		$query = "IFNULL(uf_login('". $user. "','".$psw."'),0) AS respuesta";
 		$this->db->select($query);
 		$resultado = $this->db->get();
 		if ($resultado->num_rows() == 1) {
