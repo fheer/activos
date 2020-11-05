@@ -30,6 +30,15 @@ class Persona_model extends CI_Model
 	}
 
 	/*
+     * Persona_count count
+     */
+	function persona_count()
+	{
+		$this->db->from('persona');
+		return $this->db->count_all_results();
+	}
+
+	/*
      * Get all persona count
      */
 	function get_all_persona_count()

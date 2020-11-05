@@ -10,15 +10,19 @@ class Mlogin extends CI_Model
 	}
 
 	public function ingresar($user,$psw){
-		$query = "IFNULL(uf_login('". $user. "','".$psw."'),0) AS respuesta";
-		$this->db->select($query);
+		$this->db->select('user,clave,permiso,idPersona');
+		$this->db->FROM('usuario');
+		$this->db->WHERE('user',$user);
+		$this->db->WHERE('clave',$psw);
+
 		$resultado = $this->db->get();
+
 		if ($resultado->num_rows() == 1) {
 				$r = $resultado->row();
 				//echo $r->respuesta;
-				$this->db->select("concat_ws(' ',nombres,ApellidoPaterno,ApellidoMaterno) as Nombre,ci,idPersona,foto,cargo,idPersona");
+				$this->db->select("concat_ws(' ',nombres,ApellidoPaterno,ApellidoMaterno) as Nombre,ci,idPersona,foto,cargo");
 				$this->db->FROM('persona');
-				$this->db->WHERE('idPersona',$r->respuesta);
+				$this->db->WHERE('idPersona',$r->idPersona);
 				$resultado = $this->db->get();
 
 				if ($resultado->num_rows() == 1) {

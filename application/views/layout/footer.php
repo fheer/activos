@@ -17,14 +17,17 @@
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
 <link href="<?php echo base_url(); ?>assets/vendors/datatables/dataTables.bootstrap.css" rel="stylesheet" media="screen">
 
-
+	<script src="<?php echo base_url();?>assets/dist/js/app.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
+	<!-- DataTables -->
 
 <!-- Include all compiled plugins (below), or include individual files as needed <script src="<?php //echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>-->
 <script src="<?php echo base_url(); ?>assets/vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendors/datatables/dataTables.bootstrap.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/tables.js"></script>
-
+	<script src="	<?php echo base_url();?>assets/plugins/bootstrap-slider/bootstrap-slider.js"></script>
 
 <script>
 		$("#sendform1").click(function () {

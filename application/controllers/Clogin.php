@@ -14,15 +14,14 @@ class Clogin extends CI_Controller {
 
  	public function ingresar(){
  		$user = $this->input->post('user');
- 		$psw = $this->input->post('psw');
+ 		$psw = md5($this->input->post('psw'));
  		$res = $this->Mlogin->ingresar($user,$psw);
-	
- 		if ($res == 1){
- 			redirect('Chome/index');
- 		}else{
- 			$data['mensaje'] = "Usuario y/o contraseña incorrectos";
- 			$this->load->view('Vlogin',$data);
- 		}
+		if ($res == 1){
+			redirect('Chome/index');
+		}else{
+			$data['mensaje'] = "Usuario y/o contraseña incorrectos";
+			$this->load->view('Vlogin',$data);
+		}
  	}
  	public function cerrar_sesion() {
       $usuario_data = array(

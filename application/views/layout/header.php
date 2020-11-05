@@ -16,6 +16,14 @@ if(!$this->session->userdata('s_logueado')){
 	<link href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- styles -->
 	<link href="<?php echo base_url();?>assets/css/styles.css" rel="stylesheet">
+	<!-- slider -->
+	<link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/bootstrap-slider/slider.css">
+	<!-- lte -->
+	<link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/css/admin.min.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
