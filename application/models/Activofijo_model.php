@@ -20,7 +20,6 @@ class Activofijo_model extends CI_Model
 		$query = $this->db->where('idActivofijo',$idActivofijo);
 		$query = $this->db->get('activofijo');
 		return $query->result();
-
 	}
 	/*
      * Get activofijo by idActivofijo

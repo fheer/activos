@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Oscar
- * Date: 04/11/2020
- * Time: 08:39 AM
- */
+defined('BASEPATH') OR exit('No direct script access allowed');
 class Cactivofijo extends CI_Controller{
 
 	function __construct()
@@ -28,7 +23,7 @@ class Cactivofijo extends CI_Controller{
 	/*
 	 * Go to Insert Activo fijo
 	 */
-	function insertPerson()
+	function insertActivo()
 	{
 		$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 		$data['estado'] = $this->Activofijo_model->get_all_estado();
@@ -37,7 +32,7 @@ class Cactivofijo extends CI_Controller{
 		$this->load->view('layout/footer');
 	}
 
-		/*
+	/*
      * Adding a new Activo fijo
      */
 	function add()
@@ -140,7 +135,6 @@ class Cactivofijo extends CI_Controller{
 		$datos = json_encode($this->Activofijo_model->select_activofijo($idActivoFijo));
 
 		$array = json_decode($datos);
-		//echo "<script> alert(".$array->idActivoFijo.")</script>"
 		foreach($array as $obj){
 			$param['idActivofijo'] = $idActivoFijo;
 			$param['codigo'] = $obj->codigo;
