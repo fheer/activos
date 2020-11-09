@@ -107,9 +107,12 @@
 					</div>
 					<div class="form-group">
 						<label for="archivo" class="col-md-3 control-label">Imagen</label>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<input type="hidden" name="option" class="form-control" id="option" value="<?php echo 0; ?>" />
-							<input type="file" name="archivo"  id="archivo">
+							<input type="file" name="archivo"  id="exampleInputFile1" class="btn btn-default">
+							<p class="help-block">
+								Seleccionar Imagen.
+							</p>
 						</div>
 					</div>
 					<div class="box-footer">

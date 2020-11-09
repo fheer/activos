@@ -2,7 +2,6 @@
 /**
 * 
 */
-require_once APPPATH."/third_party/fpdf/Fpdf.php";
 class CreportePersona extends CI_Controller
 {
 

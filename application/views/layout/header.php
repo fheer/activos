@@ -16,6 +16,14 @@ if(!$this->session->userdata('s_logueado')){
 	<link href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- styles -->
 	<link href="<?php echo base_url();?>assets/css/styles.css" rel="stylesheet">
+
+	<link href="<?php echo base_url();?>assets/vendors/form-helpers/css/bootstrap-formhelpers.min.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>assets/vendors/select/bootstrap-select.min.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>assets/vendors/tags/css/bootstrap-tags.css" rel="stylesheet">
+
+	<link href="<?php echo base_url();?>assets/css/forms.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/select2/select2.min.css">
 	<!-- slider -->
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/bootstrap-slider/slider.css">
 	<!-- lte -->
@@ -88,18 +96,18 @@ if(!$this->session->userdata('s_logueado')){
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="<?php echo base_url();?>CPersona">Nuevo</a></li>
-							<li><a href="">Lista</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Nuevo</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista</a></li>
 						</ul>
 					</li>
 					<li class="submenu">
-						<a href="#">
+						<a href="">
 							<i class="glyphicon glyphicon-list"></i> Movimientos
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="<?php echo base_url();?>CPersona">Nuevo</a></li>
+							<li><a href="<?php echo base_url();?>movimientos/CMovimiento/listaLugares/1">Ver Lugares</a></li>
 							<li><a href="">Lista</a></li>
 						</ul>
 					</li>

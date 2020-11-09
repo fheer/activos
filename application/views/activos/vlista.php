@@ -4,7 +4,7 @@
 			<div class="panel-title">Lista del personal</div>
 			<br>
 			<div class="pull-left">
-				<a href="<?php echo site_url('activos/Cactivofijo/insertPerson'); ?>" class="btn btn-primary btn-sm">
+				<a href="<?php echo site_url('activos/Cactivofijo/insertActivo'); ?>" class="btn btn-primary btn-sm">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Activo Fijo
 				</a>
 				<a href="<?php echo base_url();?>reportes/CreporteActivo/datosActivo" target="_blank" class="btn btn-success btn-sm">
@@ -17,7 +17,7 @@
 				<thead>
 				<tr>
 					<th width="5%" align="center">No</th>
-					<th width="10%">Codigo</th>
+					<th width="10%">Código</th>
 					<th width="15%">Número de serie</th>
 					<th width="15%">Nombre</th>
 					<th width="15%">Fecha de compra</th>
