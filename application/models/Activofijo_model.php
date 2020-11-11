@@ -60,10 +60,23 @@ class Activofijo_model extends CI_Model
 	/*
      * function to add new activofijo
      */
-	function add_activofijo($params)
+	function add_activofijo($params, $paramsMov)
 	{
+		$this->db->trans_begin();
+
 		$this->db->insert('activofijo',$params);
-		return $this->db->insert_id();
+
+		//$this->db->insert('bitacora_movimiento',$paramsMov);
+
+		if ($this->db->trans_status() === FALSE){
+			//Hubo errores en la consulta, entonces se cancela la transacción.
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			//Todas OK.
+			$this->db->trans_commit();
+			return true;
+		}
 	}
 
 	/*
@@ -99,6 +112,73 @@ class Activofijo_model extends CI_Model
 		if ($resultado->num_rows() == 1) {
 			$r = $resultado->row();
 			return $r->tipo;
+		}else{
+			return 0;
+		}
+	}
+
+	/*
+     * Get lugares
+     */
+	function get_all_Lugar()
+	{
+		$this->db->where('eliminado=', 1);
+		$this->db->order_by('lugar', 'asc');
+		return $this->db->get('lugar')->result_array();
+	}
+
+	/*
+     * Get lugares
+     */
+	function get_Lugar($idLugar)
+	{
+		$this->db->select('idLugar, lugar');
+		$this->db->FROM('lugar');
+		$this->db->WHERE('idLugar',$idLugar);
+
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() == 1) {
+			$r = $resultado->row();
+			return $r->lugar;
+		}else{
+			return 0;
+		}
+	}
+
+	/*
+     * Saca el ultimo id registrado
+     */
+	function get_last_id()
+	{
+
+		$this->db->select('max(idActivofijo) as idActivofijo');
+		$this->db->FROM('activofijo');
+
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() == 1) {
+			$r = $resultado->row();
+			return $r->idActivofijo;
+		}else{
+			return 0;
+		}
+	}
+
+	/*
+     * Saca el ultimo id registrado
+     */
+	function get_vida_util($id)
+	{
+
+		$this->db->select('vidautil');
+		$this->db->from('tipoactivofijo');
+		$this->db->where('idTipoActivoFijo=', $id);
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() == 1) {
+			$r = $resultado->row();
+			return $r->vidautil;
 		}else{
 			return 0;
 		}
