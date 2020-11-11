@@ -136,16 +136,21 @@
 <script>
 		$(function () {
 			//Initialize Select2 Elements
-			$(".select2").select2();
-			//Datemask dd/mm/yyyy
-			$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-			//Datemask2 mm/dd/yyyy
-			$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-			//Date picker
-			$('#datepicker').datepicker({
-				autoclose: true
+			$.fn.select2.defaults.set('language', 'es');
+			$('.select2').select2({
+				language: {
+					noResults: function() {
+						return "No hay resultados";
+					},
+					searching: function() {
+						return "Buscando...";
+					}
+				}
 			});
 		});
 	</script>
 </body>
+<script>
+	var baseurl = "<?php echo base_url(); ?>";
+</script>
 </html>

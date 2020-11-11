@@ -119,7 +119,7 @@ if(!$this->session->userdata('s_logueado')){
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="login.html">Lista Usuarios</a></li>
+							<li><a href="<?php echo base_url();?>usuarios/Cusuario">Lista Usuarios</a></li>
 						</ul>
 					</li>
 					<br><br><br><br><br><br><br><br><br><br>
