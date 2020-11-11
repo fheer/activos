@@ -27,6 +27,8 @@ class Cactivofijo extends CI_Controller{
 	{
 		$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 		$data['estado'] = $this->Activofijo_model->get_all_estado();
+		$data['lugar'] = $this->Activofijo_model->get_all_Lugar();
+		$data['mensaje'] = '';
 		$this->load->view('layout/header');
 		$this->load->view('activos/vactivo',$data);
 		$this->load->view('layout/footer');
@@ -42,13 +44,27 @@ class Cactivofijo extends CI_Controller{
 		if($this->form_validation->run())
 		{
 			$params = $this->parametros();
-			$activofijo_id = $this->Activofijo_model->add_activofijo($params);
+			$paramsMov = $this->parametros_movimientos();
+			$ok = $this->Activofijo_model->add_activofijo($params, $paramsMov);
+			if ($ok)
+			{
 			redirect('activos/Cactivofijo/index');
+			}
+			else
+			{
+				$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
+				$data['estado'] = $this->Activofijo_model->get_all_estado();
+				$data['mensaje'] = 'Ocurrio un error al guardar los datos';
+				$this->load->view('layout/header');
+				$this->load->view('activos/vactivo',$data);
+				$this->load->view('layout/footer');
+			}
 		}
 		else
 		{
 			$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 			$data['estado'] = $this->Activofijo_model->get_all_estado();
+			$data['mensaje'] = '';
 			$this->load->view('layout/header');
 			$this->load->view('activos/vactivo',$data);
 			$this->load->view('layout/footer');
@@ -133,7 +149,6 @@ class Cactivofijo extends CI_Controller{
 	public function select_activofijo($idActivoFijo)
 	{
 		$datos = json_encode($this->Activofijo_model->select_activofijo($idActivoFijo));
-
 		$array = json_decode($datos);
 		foreach($array as $obj){
 			$param['idActivofijo'] = $idActivoFijo;
@@ -147,11 +162,13 @@ class Cactivofijo extends CI_Controller{
 			$param['valorInicial'] = $obj->valorInicial;
 			$param['nombreEstado'] = $obj->estado;
 			$param['idTipoActivoFijo'] = $obj->idTipoActivoFijo;
+			$param['idLugar'] = $obj->idLugar;
+			$param['lugar'] = $this->Activofijo_model->get_Lugar($obj->idLugar);
 			$param['qr'] = $obj->qr;
 		}
 		$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 		$data['estado'] = $this->Activofijo_model->get_all_estado();
-
+		$param['lugarAll'] = $this->Activofijo_model->get_all_Lugar();
 		$this->load->view('layout/header');
 		$this->load->view('activos/vuactivo',$param);
 		$this->load->view('layout/footer');
@@ -167,10 +184,8 @@ class Cactivofijo extends CI_Controller{
 		$params['level'] = 'H';
 		$params['size'] = 10;
 
-		//decimos el directorio a guardar el codigo qr, en este
-		//caso una carpeta en la raíz llamada qr_code
 		$params['savename'] = FCPATH ."fotos/qr/qr_$code.png";
-		//generamos el código qr
+
 		$this->ciqrcode->generate($params);
 
 		return "qr_$code.png";
@@ -183,7 +198,14 @@ class Cactivofijo extends CI_Controller{
 		$fechaCompra = $this->input->post('anio')."-".$this->input->post('mes')."-".$this->input->post('dia');
 		$code = $this->input->post('codigo');
 		$serie = $this->input->post('numeroSerie');
-
+		$checkbox = $this->input->post('fijo');
+		if ($checkbox)
+		{
+			$fijo = 1;
+		}
+		else{
+			$fijo = 0;
+		}
 		$params = array(
 			'idTipoActivoFijo' => $this->input->post('idTipoActivoFijo'),
 			'codigo' => $this->onlyOneSpace($this->input->post('codigo')),
@@ -196,6 +218,40 @@ class Cactivofijo extends CI_Controller{
 			'qr' => $this->generateQR($code, $serie),
 			'fechaCompra' => ($fechaCompra),
 			'valorInicial' => $this->onlyOneSpace($this->input->post('valorInicial')),
+			'idLugar' => $this->onlyOneSpace($this->input->post('idLugar')),
+		);
+		return $params;
+	}
+
+	/**
+	 * Parameters Method to movimientos;
+	 */
+	private function parametros_movimientos()
+	{
+		$fechaCompra = $this->input->post('anio')."-".$this->input->post('mes')."-".$this->input->post('dia');
+		$code = $this->input->post('codigo');
+		$serie = $this->input->post('numeroSerie');
+		$checkbox = $this->input->post('fijo');
+		if ($checkbox)
+		{
+			$fijo = 1;
+		}
+		else{
+			$fijo = 0;
+		}
+		$idActivofijo = $this->Activofijo_model->get_last_id()+ 1;
+		$vidautil = $this->Activofijo_model->get_vida_util($this->input->post('idTipoActivoFijo'));
+		$anio = date("Y");
+		$mes = date("m");
+		$dia = date("d");
+		$hasta = $anio+$vidautil."-".$mes."-".$dia;
+		$params = array(
+			'idActivofijo' => $idActivofijo,
+			'movimiento' => "Asignado",
+			'idLugar' => $this->onlyOneSpace($this->input->post('idLugar')),
+			'fechaDe' => date("Y-m-d"),
+			'fechaHasta' => $hasta,
+			'fijo' => $fijo,
 		);
 		return $params;
 	}

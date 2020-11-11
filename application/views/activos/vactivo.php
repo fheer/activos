@@ -1,5 +1,17 @@
 <div class="col-md-10">
 	<div class="content-box-large">
+		<?php
+		if (!empty($mensaje))
+		{
+			?>
+			<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<h4><i class="icon fa fa-ban"></i> Mensaje</h4>
+				<?php echo $mensaje; ?>
+			</div>
+			<?php
+		}
+		?>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-md-6">
@@ -115,11 +127,30 @@
 							</p>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="idLugar" class="col-md-3 control-label">Lugar</label>
+						<div class="col-md-6">
+							<select id="idLugar" name="idLugar" class="col-md-6 form-control select2">
+								<?php
+								foreach ($lugar as $row)
+								{
+									?>
+									<option value="<?php echo $row['idLugar']; ?>"><?php echo $row['lugar']; ?></option>
+									<?php
+								}
+								?>
+							</select>
+							<label>
+								<input type="checkbox" id="fijo" name="fijo" class="flat-green" checked>
+								Fijo en lugar
+							</label>
+						</div>
+					</div>
 					<div class="box-footer">
-						<a href="<?php echo base_url();?>activos/Cactivofijo/" class="btn btn btn-default btn-sm">
+						<a href="<?php echo base_url();?>activos/Cactivofijo/" class="btn btn btn-default btn-md pull-right">
 							<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
 						</a>
-						<button type="submit" class="btn btn-info btn-sm pull-right"> <span class="glyphicon glyphicon-ok-circle"></span> Guardar</button>
+						<button type="submit" class="btn btn-info btn-md"> <span class="glyphicon glyphicon-ok-circle"></span> Guardar</button>
 					</div>
 					<?php echo form_close(); ?>
 				</div>
