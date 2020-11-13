@@ -68,7 +68,7 @@ class Activofijo_model extends CI_Model
 
 		//$this->db->insert('bitacora_movimiento',$paramsMov);
 
-		if ($this->db->trans_status() === FALSE){
+		/*if ($this->db->trans_status() === FALSE){
 			//Hubo errores en la consulta, entonces se cancela la transacción.
 			$this->db->trans_rollback();
 			return false;
@@ -76,7 +76,7 @@ class Activofijo_model extends CI_Model
 			//Todas OK.
 			$this->db->trans_commit();
 			return true;
-		}
+		}*/
 	}
 
 	/*
@@ -130,6 +130,16 @@ class Activofijo_model extends CI_Model
 	/*
      * Get lugares
      */
+	function get_all_activo()
+	{
+		$this->db->where('eliminado=', 1);
+		$this->db->order_by('nombre', 'asc');
+		return $this->db->get('activofijo')->result_array();
+	}
+
+	/*
+     * Get lugares
+     */
 	function get_Lugar($idLugar)
 	{
 		$this->db->select('idLugar, lugar');
@@ -160,6 +170,22 @@ class Activofijo_model extends CI_Model
 		if ($resultado->num_rows() == 1) {
 			$r = $resultado->row();
 			return $r->idActivofijo;
+		}else{
+			return 0;
+		}
+	}
+
+	function get_codigo($codigo)
+	{
+
+		$this->db->select('idActivofijo,codigo');
+		$this->db->FROM('activofijo');
+		$this->db->WHERE('codigo',$codigo);
+
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() == 1) {
+			return 1;
 		}else{
 			return 0;
 		}

@@ -10,16 +10,19 @@ class Mlogin extends CI_Model
 	}
 
 	public function ingresar($user,$psw){
-		$this->db->select('user,clave,permiso,idPersona');
+		$this->db->select('idUsuario,user,clave,permiso,idPersona,nuevo');
 		$this->db->FROM('usuario');
 		$this->db->WHERE('user',$user);
-		$this->db->WHERE('clave',$psw);
-
 		$resultado = $this->db->get();
-
-		if ($resultado->num_rows() == 1) {
+		$r = $resultado->row();
+		$clave = $r->clave;
+		if (password_verify($psw, $clave))
+		{
+			if ($resultado->num_rows() == 1) {
 				$r = $resultado->row();
-				//echo $r->respuesta;
+				$nuevo = $r->nuevo;
+				$idUsuario = $r->idUsuario;
+
 				$this->db->select("concat_ws(' ',nombres,ApellidoPaterno,ApellidoMaterno) as Nombre,ci,idPersona,foto,cargo");
 				$this->db->FROM('persona');
 				$this->db->WHERE('idPersona',$r->idPersona);
@@ -33,6 +36,8 @@ class Mlogin extends CI_Model
 						's_nomUser' => $r->Nombre,
 						's_foto' => $r->foto,
 						's_cargo' => $r->cargo,
+						's_nuevo' => $nuevo,
+						's_idUsuario' => $idUsuario,
 						's_logueado' => TRUE
 					);
 					$this->session->set_userdata($s_user);
@@ -40,7 +45,14 @@ class Mlogin extends CI_Model
 				}else{
 					return 0;
 				}
+			}
 		}
+		else{
+			return 0;
+		}
+		/*$resultado = $this->db->get();
+
+		*/
 	}
 }
 

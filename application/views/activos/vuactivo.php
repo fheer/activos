@@ -128,26 +128,7 @@ $tipoAc = $this->Activofijo_model->getEstado($idTipoActivoFijo);
 							<input type="file" name="archivo"  id="archivo">
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="idLugar" class="col-md-3 control-label">Lugar</label>
-						<div class="col-md-6">
-							<select id="idLugar" name="idLugar" class="col-md-6 form-control select2">
-								<option value="<?php echo trim($idLugar); ?>"><?php echo trim($lugar); ?></option>
-								<?php
-								foreach ($lugarAll as $row)
-								{
-									?>
-									<option value="<?php echo $row['idLugar']; ?>"><?php echo $row['lugar']; ?></option>
-									<?php
-								}
-								?>
-							</select>
-							<label>
-								<input type="checkbox" id="fijo" name="fijo" class="flat-green">
-								Fijo en lugar
-							</label>
-						</div>
-					</div>
+
 
 					<div class="box-footer">
 						<a href="<?php echo base_url();?>activos/Cactivofijo/" class="btn btn btn-default btn-md pull-right">

@@ -39,6 +39,7 @@ class Movimiento_model extends CI_Model
      */
 	function get_all_lugar()
 	{
+		$this->db->where('eliminado=', 1);
 		$this->db->order_by('lugar', 'asc');
 		return $this->db->get('lugar')->result_array();
 	}
@@ -58,6 +59,16 @@ class Movimiento_model extends CI_Model
 	}
 
 	/*
+     * Get lugares
+     */
+	function get_all_activo()
+	{
+		$this->db->where('eliminado=', 1);
+		$this->db->order_by('nombre', 'asc');
+		return $this->db->get('activofijo')->result_array();
+	}
+
+	/*
      * Get all movimiento
      */
 	function get_all_movimiento()
@@ -73,6 +84,16 @@ class Movimiento_model extends CI_Model
 	{
 		$this->db->insert('bitacora_movimiento',$params);
 		return $this->db->insert_id();
+	}
+
+	/*
+     * Get all activofijo
+     */
+	function get_all_activofijo()
+	{
+		$this->db->where('eliminado=',1);
+		$this->db->order_by('idActivofijo', 'desc');
+		return $this->db->get('activofijo')->result_array();
 	}
 
 	/*

@@ -39,22 +39,24 @@ class Cactivofijo extends CI_Controller{
      */
 	function add()
 	{
-		$this->formValidation();
 
-		if($this->form_validation->run())
+		if ($this->Activofijo_model->get_codigo($this->input->post('codigo')) == 0)
 		{
-			$params = $this->parametros();
-			$paramsMov = $this->parametros_movimientos();
-			$ok = $this->Activofijo_model->add_activofijo($params, $paramsMov);
-			if ($ok)
+			$this->formValidation();
+
+			if($this->form_validation->run())
 			{
-			redirect('activos/Cactivofijo/index');
+				$params = $this->parametros();
+				$paramsMov = $this->parametros_movimientos();
+				$ok = $this->Activofijo_model->add_activofijo($params, $paramsMov);
+
+					redirect('activos/Cactivofijo/index');
 			}
 			else
 			{
 				$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 				$data['estado'] = $this->Activofijo_model->get_all_estado();
-				$data['mensaje'] = 'Ocurrio un error al guardar los datos';
+				$data['mensaje'] = '';
 				$this->load->view('layout/header');
 				$this->load->view('activos/vactivo',$data);
 				$this->load->view('layout/footer');
@@ -64,7 +66,7 @@ class Cactivofijo extends CI_Controller{
 		{
 			$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 			$data['estado'] = $this->Activofijo_model->get_all_estado();
-			$data['mensaje'] = '';
+			$data['mensaje'] = 'El codigo: '.$this->input->post('codigo').'. Se encuentra registrado';
 			$this->load->view('layout/header');
 			$this->load->view('activos/vactivo',$data);
 			$this->load->view('layout/footer');
@@ -80,23 +82,35 @@ class Cactivofijo extends CI_Controller{
 		$idActivofijo = $this->input->post('idActivofijo');
 		$data['activofijo'] = $this->Activofijo_model->get_activofijo($idActivofijo);
 
-		if(isset($data['activofijo']['idActivofijo']))
+		if ($this->Activofijo_model->get_codigo($this->input->post('codigo')) == 0)
 		{
-			$this->formValidation();
-
-			if($this->form_validation->run())
+			if(isset($data['activofijo']['idActivofijo']))
 			{
-				$params = $this->parametros();
+				$this->formValidation();
 
-				$this->Activofijo_model->update_activofijo($idActivofijo,$params);
-				redirect('activos/Cactivofijo/index');
-			}
-			else
-			{
+				if($this->form_validation->run())
+				{
+					$params = $this->parametros();
 
-				$this->select_activofijo($idActivofijo);
+					$this->Activofijo_model->update_activofijo($idActivofijo,$params);
+					redirect('activos/Cactivofijo/index');
+				}
+				else
+				{
+					$this->select_activofijo($idActivofijo);
+				}
 			}
 		}
+		else
+		{
+			$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
+			$data['estado'] = $this->Activofijo_model->get_all_estado();
+			$data['mensaje'] = 'El codigo: '.$this->input->post('codigo').'. Se encuentra registrado';
+			$this->load->view('layout/header');
+			$this->load->view('activos/vactivo',$data);
+			$this->load->view('layout/footer');
+		}
+
 	}
 
 	/*
@@ -207,18 +221,18 @@ class Cactivofijo extends CI_Controller{
 			$fijo = 0;
 		}
 		$params = array(
-			'idTipoActivoFijo' => $this->input->post('idTipoActivoFijo'),
-			'codigo' => $this->onlyOneSpace($this->input->post('codigo')),
-			'numeroSerie' => $this->onlyOneSpace($this->input->post('numeroSerie')),
-			'nombre' => $this->onlyOneSpace($this->input->post('nombre')),
-			'descripcion' => $this->onlyOneSpace($this->input->post('descripcion')),
-			'imagen' => $this->subirImagen(),
-			'estado' => $this->onlyOneSpace($this->input->post('idEstado')),
-			'estado' => $this->onlyOneSpace($this->input->post('idEstado')),
-			'qr' => $this->generateQR($code, $serie),
-			'fechaCompra' => ($fechaCompra),
-			'valorInicial' => $this->onlyOneSpace($this->input->post('valorInicial')),
-			'idLugar' => $this->onlyOneSpace($this->input->post('idLugar')),
+			'idTipoActivoFijo' => trim($this->input->post('idTipoActivoFijo')),
+			'codigo' => trim($this->onlyOneSpace($this->input->post('codigo'))),
+			'numeroSerie' => trim($this->onlyOneSpace($this->input->post('numeroSerie'))),
+			'nombre' => trim($this->onlyOneSpace($this->input->post('nombre'))),
+			'descripcion' => trim($this->onlyOneSpace($this->input->post('descripcion'))),
+			'imagen' => trim($this->subirImagen()),
+			'estado' => trim($this->onlyOneSpace($this->input->post('idEstado'))),
+			'estado' => trim($this->onlyOneSpace($this->input->post('idEstado'))),
+			'qr' => trim($this->generateQR($code, $serie)),
+			'fechaCompra' => trim(($fechaCompra)),
+			'valorInicial' =>trim( $this->onlyOneSpace($this->input->post('valorInicial'))),
+			//'idLugar' => $this->onlyOneSpace($this->input->post('idLugar')),
 		);
 		return $params;
 	}

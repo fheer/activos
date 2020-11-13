@@ -103,10 +103,10 @@ class CPersona extends CI_Controller{
 	public function get_all_personas(){
 		echo json_encode($this->model->get_all_personas());
 	}
+
 	/*
 	 * Form Validation
 	 */
-
 	private function formValidation() {
 		$this->load->library('form_validation');
 
@@ -207,15 +207,15 @@ class CPersona extends CI_Controller{
 			echo json_encode($data);
 		} else {
 			$params = array(
-				'cargo' => $this->input->post('cargo'),
-				'ci' => $this->input->post('ci'),
-				'nombres' => $this->onlyOneSpace($this->input->post('nombre')),
-				'apellidoPaterno' => $this->onlyOneSpace($this->input->post('apellidoPaterno')),
-				'apellidoMaterno' => $this->onlyOneSpace($this->input->post('apellidoMaterno')),
-				'direccion' => $this->onlyOneSpace($this->input->post('direccion')),
-				'telefono' => $this->input->post('telefono'),
-				'email' => $this->input->post('email'),
-				'fechaRegistro' => date("Y-m-d H:m:s"),
+				'cargo' => trim($this->input->post('cargo')),
+				'ci' => trim($this->input->post('ci')),
+				'nombres' => trim($this->onlyOneSpace($this->input->post('nombre'))),
+				'apellidoPaterno' => trim($this->onlyOneSpace($this->input->post('apellidoPaterno'))),
+				'apellidoMaterno' => trim($this->onlyOneSpace($this->input->post('apellidoMaterno'))),
+				'direccion' => trim($this->onlyOneSpace($this->input->post('direccion'))),
+				'telefono' => trim($this->input->post('telefono')),
+				'email' => trim($this->input->post('email')),
+				'fechaRegistro' => trim(date("Y-m-d H:m:s")),
 			);
 
 			$this->Persona_model->add_persona($params);
@@ -365,7 +365,7 @@ class CPersona extends CI_Controller{
 		$nuevaCadena= "";
 		foreach($porciones as $posicion=>$jugador)
 		{
-			$nuevaCadena .=" ". $jugador;
+			$nuevaCadena .=$jugador." ";
 		}
 		return $nuevaCadena;
 	}
@@ -384,7 +384,7 @@ class CPersona extends CI_Controller{
 		}
 		else
 		{
-			$this->form_validation->set_message('ci', 'El campo {field} puede contener números al empezar, y/0 guión y 
+			$this->form_validation->set_message('ci', 'El campo {field} puede contener números, y/0 guión y 
 			caracteres alfabéticos.');
 			return FALSE;
 		}

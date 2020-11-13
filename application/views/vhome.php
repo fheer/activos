@@ -26,3 +26,30 @@
 		</div>
 	</div>
 </div>
+		<?php
+		if(strtolower($this->session->userdata('s_nuevo')) == 'S') :
+			?>
+			<script>
+				$(document).ready(function(){
+					$("#modalNuevo").modal("show");
+				});
+			</script>
+		<?php endif; ?>
+		<!-- Modal -->
+		<div class="modal fade" id="modalNuevo" data-backdrop="static" data-keyboard="false" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h6 class="modal-title">Gestión de Activos Fijos</h6>
+					</div>
+					<div class="modal-body">
+						<h5 align="center">Debe cambiar su contraseña por ser la primera ves que inicia sesión</h5>
+					</div>
+					<div class="modal-footer">
+						<?php echo form_open(base_url()."perfil/CPerfil/change_password/"); ?>
+						<button type="submit" class="btn btn-success center-block">Aceptar</button>
+						<?php echo form_close(); ?>
+					</div>
+				</div>
+			</div>
+		</div>

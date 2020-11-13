@@ -37,20 +37,21 @@
 										</select>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="user" class="col-md-4 control-label">Usuario</label>
+										<label for="user" class="col-md-6 control-label">Usuario</label>
 										<input class="form-control" id="user" name="user" type="text" >
 									</div>
 									<div class="form-group col-md-4">
-										<label for="clave" class="col-md-4 control-label">Contraseña</label>
+										<label for="clave" class="col-md-6 control-label">Contraseña</label>
 										<input class="form-control" id="clave" name="clave" type="text">
 									</div>
-									<div class="form-group col-md-5">
-										<label for="claveHash" class="col-md-4 control-label">clave Hash</label>
-										<input class="form-control" id="claveHash" name="claveHash" type="text">
+									<div class="form-group col-md-6">
+										<label hidden for="claveHash" class="col-md-6 control-label">clave Hash</label>
+										<input  type="hidden" class="form-control" id="claveHash" name="claveHash">
 									</div>
-									<div class="form-group col-md-5">
-										<label for="clave" class="col-md-4 control-label">email</label>
-										<input class="form-control" id="email" name="email" type="text">
+									<br>
+									<div class="form-group col-md-4">
+										<label hidden for="clave" class="col-md-6 control-label">email</label>
+										<input type="hidden" class="form-control" id="email" name="email" >
 									</div>
 									<script type="text/javascript">
 										var baseurl = "<?php echo base_url(); ?>";
