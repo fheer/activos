@@ -29,8 +29,11 @@
 					</div>
 				</div>
 				<div class="box-footer">
-					<a href="<?php echo base_url();?>movimientos/CMovimiento/listaLugares/1" class="btn btn btn-default btn-lg">
+					<a href="<?php echo base_url();?>movimientos/CMovimiento/listaLugares/1" class="btn btn btn-default btn-md">
 						<span class="fa fa-chevron-left" aria-hidden="true"></span> Volver
+					</a>
+					<a href="<?php echo base_url();?>movimientos/CMovimiento/asignar/" class="btn btn btn-primary btn-md">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Asignar
 					</a>
 				</div>
 			</section>

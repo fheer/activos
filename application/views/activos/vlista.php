@@ -1,7 +1,7 @@
 <div class="col-md-10">
 	<div class="content-box-large">
 		<div class="panel-body">
-			<div class="panel-title">Lista del personal</div>
+			<div class="panel-title">Lista de Activos Fijos</div>
 			<br>
 			<div class="pull-left">
 				<a href="<?php echo site_url('activos/Cactivofijo/insertActivo'); ?>" class="btn btn-primary btn-sm">

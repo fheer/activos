@@ -1,11 +1,5 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: Oscar
- * Date: 08/11/2020
- * Time: 11:54 PM
- */
+defined('BASEPATH') OR exit('No direct script access allowed');
 class CUsuario extends CI_Controller{
 	function __construct()
 	{
@@ -51,9 +45,6 @@ class CUsuario extends CI_Controller{
      */
 	function add()
 	{
-			//$datos =$this->Usuario_model->verify_user_name($this->input->post('user'));
-			//echo $datos;
-			//Verify user name
 			if ($this->Usuario_model->verify_user_name($this->input->post('user'))== 0)
 			{
 				$checbox1 = $this->input->post('personal');
@@ -64,16 +55,16 @@ class CUsuario extends CI_Controller{
 				$permisos = '';
 
 				if (isset($checbox1)) {
-					$permisos .= md5('Personal').'-';
+					$permisos .= md5('Personal').'#';
 				}
 				if (isset($checbox2)) {
-					$permisos .= md5('Activos').'-';
+					$permisos .= md5('Activos').'#';
 				}
 				if (isset($checbox3)) {
-					$permisos .= md5('Movimientos').'-';
+					$permisos .= md5('Movimientos').'#';
 				}
 				if (isset($checbox4)) {
-					$permisos .= md5('Usuarios').'-';
+					$permisos .= md5('Usuarios');
 				}
 				$params = array(
 					'user' => $this->input->post('user'),

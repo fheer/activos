@@ -50,7 +50,6 @@ class Usuario_model extends CI_Model
      */
 	function verify_user_name($user)
 	{
-		//$this->db->select("email");
 		$this->db->from("usuario");
 		$this->db->where("user",$user);
 		$r = $this->db->get();
@@ -115,6 +114,16 @@ class Usuario_model extends CI_Model
 		$this->db->from('persona');
 		$this->db->where('idPersona',$idPersona);
 
+		return $this->db->get()->result_array();
+	}
+
+	/*
+	 * Get clave
+	 */
+	public function get_user_name($idUsuario){
+		$this->db->select('idUsuario, user, clave');
+		$this->db->from('usuario');
+		$this->db->where('idUsuario',$idUsuario);
 		return $this->db->get()->result_array();
 	}
 }

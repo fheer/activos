@@ -1,10 +1,3 @@
-<?php
-if(!$this->session->userdata('s_logueado')){
-	$Urlu = base_url()."Clogin";
-	echo '<script language="javascript">alert("No se identifico como Usuario");</script>';
-	echo '<script type="text/javascript">window.location="'.$Urlu.'"; </script>';
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,9 +26,9 @@ if(!$this->session->userdata('s_logueado')){
 	<!-- Ionicons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="header">
@@ -59,7 +52,7 @@ if(!$this->session->userdata('s_logueado')){
 								</a>
 								<ul class="dropdown-menu animated fadeInUp">
 									<li></li>
-									<li><a href="profile.html">Profile</a></li>
+									<li><a href="<?php echo base_url();?>perfil/CPerfil">Perfil</a></li>
 									<li><a href="<?php echo base_url();?>Clogin/cerrar_sesion">Salir</a></li>
 								</ul>
 							</li>
@@ -126,3 +119,33 @@ if(!$this->session->userdata('s_logueado')){
 				</ul>
 			</div>
 		</div>
+
+		<?php if(empty($this->session->userdata('s_logueado'))) : ?>
+
+			<script>
+				$(document).ready(function(){
+					$("#modalInicio").modal("show");
+				});
+			</script>
+		<?php endif; ?>
+		<!-- Modal -->
+		<div class="modal fade" id="modalInicio" data-backdrop="static" data-keyboard="false" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h6 class="modal-title">Autenticación</h6>
+					</div>
+					<div class="modal-body">
+						<h5 align="center">No se identifico como Usuario</h5>
+					</div>
+					<div class="modal-footer">
+						<?php echo form_open(base_url()."Clogin"); ?>
+						<button type="submit" class="btn btn-success center-block">Aceptar</button>
+						<?php echo form_close(); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+

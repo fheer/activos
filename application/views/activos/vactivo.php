@@ -127,25 +127,7 @@
 							</p>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="idLugar" class="col-md-3 control-label">Lugar</label>
-						<div class="col-md-6">
-							<select id="idLugar" name="idLugar" class="col-md-6 form-control select2">
-								<?php
-								foreach ($lugar as $row)
-								{
-									?>
-									<option value="<?php echo $row['idLugar']; ?>"><?php echo $row['lugar']; ?></option>
-									<?php
-								}
-								?>
-							</select>
-							<label>
-								<input type="checkbox" id="fijo" name="fijo" class="flat-green" checked>
-								Fijo en lugar
-							</label>
-						</div>
-					</div>
+
 					<div class="box-footer">
 						<a href="<?php echo base_url();?>activos/Cactivofijo/" class="btn btn btn-default btn-md pull-right">
 							<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar

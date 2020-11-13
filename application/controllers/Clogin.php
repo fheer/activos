@@ -7,6 +7,7 @@ class Clogin extends CI_Controller {
 		parent::__construct();
 	    $this->load->model('Mlogin');
 	}
+
 	public function index(){
 		$data = "";
 		$this->load->view('Vlogin',$data);
@@ -14,7 +15,7 @@ class Clogin extends CI_Controller {
 
  	public function ingresar(){
  		$user = $this->input->post('user');
- 		$psw = md5($this->input->post('psw'));
+ 		$psw = $this->input->post('psw');
  		$res = $this->Mlogin->ingresar($user,$psw);
 		if ($res == 1){
 			redirect('Chome/index');
@@ -23,9 +24,10 @@ class Clogin extends CI_Controller {
 			$this->load->view('Vlogin',$data);
 		}
  	}
+
  	public function cerrar_sesion() {
       $usuario_data = array(
-         'logueado' => FALSE
+         's_logueado' => FALSE
       );
       $this->session->set_userdata($usuario_data);
       $this->load->view('vlogin');
