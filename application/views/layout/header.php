@@ -101,7 +101,8 @@
 						<!-- Sub menu -->
 						<ul>
 							<li><a href="<?php echo base_url();?>movimientos/CMovimiento/listaLugares/1">Ver Lugares</a></li>
-							<li><a href="">Lista</a></li>
+							<li><a href="<?php echo base_url();?>asignar/CAsignar/asignar/">Asignar</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/ver/Ele-123">Ver</a></li>
 						</ul>
 					</li>
 

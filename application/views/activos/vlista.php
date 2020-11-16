@@ -20,7 +20,7 @@
 					<th width="10%">Código</th>
 					<th width="15%">Número de serie</th>
 					<th width="15%">Nombre</th>
-					<th width="15%">Fecha de compra</th>
+					<th width="15%">Fecha</th>
 					<th width="10%">Valor inicial</th>
 					<th width="10%">Imagen</th>
 					<th width="10%">Código QR</th>
@@ -36,8 +36,8 @@
 						<td><?php echo $row['nombre']; ?></td>
 						<td><?php echo $row['fechaCompra']; ?></td>
 						<td><?php echo $row['valorInicial']; ?></td>
-						<td><img src="<?php echo base_url().'fotos/activos/'.$row['imagen'];?>" width="60" height="80"></td>
-						<td><img src="<?php echo base_url().'fotos/qr/'.$row['qr'];?>" width="60" height="80"></td>
+						<td><img src="<?php echo base_url().'fotos/activos/'.$row['imagen'];?>" width="100" height="100"></td>
+						<td><img src="<?php echo base_url().'fotos/qr/'.$row['qr'];?>" width="100" height="100"></td>
 						<td>
 							<span class="pull-right">
 								  <div class="dropdown">

@@ -7,6 +7,7 @@ class CPersona extends CI_Controller{
 	{
 		parent::__construct();
 		$this->load->model('Persona_model');
+		$this->load->model('Cargo_model');
 	}
 
 	/*
@@ -25,7 +26,7 @@ class CPersona extends CI_Controller{
 	 */
 	function insertPerson()
 	{
-		$data['_view'] = 'persona/index';
+		$data['cargo'] = $this->Cargo_model->get_all_cargo();
 		$this->load->view('layout/header');
 		$this->load->view('persona/vpersona',$data);
 		$this->load->view('layout/footer');
@@ -146,21 +147,22 @@ class CPersona extends CI_Controller{
 			return $imagen;
 		}
 	}
+
 	/*
-	 *
+	 * fucntion for Parameters add and update
 	 */
 	private function parametros()
 	{
 		$params = array(
-			'cargo' => $this->input->post('cargo'),
-			'ci' => $this->input->post('ci'),
-			'nombres' => $this->onlyOneSpace($this->input->post('nombre')),
-			'apellidoPaterno' => $this->onlyOneSpace($this->input->post('apellidoPaterno')),
-			'apellidoMaterno' => $this->onlyOneSpace($this->input->post('apellidoMaterno')),
-			'direccion' => $this->onlyOneSpace($this->input->post('direccion')),
-			'telefono' => $this->input->post('telefono'),
-			'email' => $this->input->post('email'),
-			'fechaRegistro' => date("Y-m-d H:m:s"),
+			'cargo' => trim($this->input->post('cargo')),
+			'ci' => trim($this->input->post('ci')),
+			'nombres' => trim($this->onlyOneSpace($this->input->post('nombre'))),
+			'apellidoPaterno' => trim($this->onlyOneSpace($this->input->post('apellidoPaterno'))),
+			'apellidoMaterno' => trim($this->onlyOneSpace($this->input->post('apellidoMaterno'))),
+			'direccion' => trim($this->onlyOneSpace($this->input->post('direccion'))),
+			'telefono' => trim($this->input->post('telefono')),
+			'email' => trim($this->input->post('email')),
+			'fechaRegistro' => trim(date("Y-m-d H:m:s")),
 			'foto' => $this->subirImagen(),
 		);
 		return $params;
@@ -390,3 +392,4 @@ class CPersona extends CI_Controller{
 		}
 	}
 }
+

@@ -53,7 +53,7 @@ class Persona_model extends CI_Model
 	function get_all_persona()
 	{
 		$this->db->where("eliminado",1);
-		$this->db->order_by('idPersona', 'desc');
+		$this->db->order_by('apellidoPaterno', 'asc');
 		return $this->db->get('persona')->result_array();
 	}
 

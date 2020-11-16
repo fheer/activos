@@ -23,7 +23,7 @@ class Mlogin extends CI_Model
 				$nuevo = $r->nuevo;
 				$idUsuario = $r->idUsuario;
 
-				$this->db->select("concat_ws(' ',nombres,ApellidoPaterno,ApellidoMaterno) as Nombre,ci,idPersona,foto,cargo");
+				$this->db->select("concat_ws(' ',nombres,ApellidoPaterno,ApellidoMaterno) as Nombre,ci,idPersona,foto,idCargo");
 				$this->db->FROM('persona');
 				$this->db->WHERE('idPersona',$r->idPersona);
 				$resultado = $this->db->get();
