@@ -79,7 +79,7 @@
 		</div>
 	</div>
 	<!-- Delete modal -->
-	<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
+	<div class="modal fade" id="modalDelete" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -94,7 +94,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" id="btnEliminar" class="btn btn-primary">Eliminar</button>
+					<button type="submit" id="btnEliminar" class="btn btn-primary pull-left">Eliminar</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				</div>
 				<?php echo form_close(); ?>

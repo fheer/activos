@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Oscar
- * Date: 04/11/2020
- * Time: 08:45 AM
- */
+defined('BASEPATH') OR exit('No direct script access allowed');
 class Activofijo_model extends CI_Model
 {
 	function __construct()
@@ -19,14 +14,23 @@ class Activofijo_model extends CI_Model
 	{
 		$query = $this->db->where('idActivofijo',$idActivofijo);
 		$query = $this->db->get('activofijo');
-		return $query->result();
+		return $query->row_array();
 	}
+
 	/*
      * Get activofijo by idActivofijo
      */
 	function get_activofijo($idActivofijo)
 	{
 		return $this->db->get_where('activofijo',array('idActivofijo'=>$idActivofijo))->row_array();
+	}
+
+	/*
+     * Get activofijo by idActivofijo
+     */
+	function get_activofijo_codigo_numeroSerie($codigo)
+	{
+		return $this->db->get_where('activofijo',array('codigo'=>$codigo))->row_array();
 	}
 
 	/*
@@ -60,23 +64,30 @@ class Activofijo_model extends CI_Model
 	/*
      * function to add new activofijo
      */
-	function add_activofijo($params, $paramsMov)
+	function add_activofijo($params, $idPersona)
 	{
+		//Iniciamos la transacción.
 		$this->db->trans_begin();
-
 		$this->db->insert('activofijo',$params);
+		$idActivofijo = $this->db->insert_id();
+		date_default_timezone_set("America/La_Paz");
+		$paramsAsignar = array(
+			'idPersona' => $idPersona,
+			'idActivofijo' => $idActivofijo,
+			'fechaEntrega' => date('Y-m-d H:i:s', time()),
+		);
+		$this->db->insert('asignacion',$paramsAsignar);
 
-		//$this->db->insert('bitacora_movimiento',$paramsMov);
-
-		/*if ($this->db->trans_status() === FALSE){
+		if ($this->db->trans_status() === FALSE){
 			//Hubo errores en la consulta, entonces se cancela la transacción.
 			$this->db->trans_rollback();
 			return false;
 		}else{
-			//Todas OK.
+			//Todas las consultas se hicieron correctamente.
 			$this->db->trans_commit();
 			return true;
-		}*/
+		}
+
 	}
 
 	/*
