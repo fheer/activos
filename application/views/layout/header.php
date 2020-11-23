@@ -73,7 +73,7 @@
 					<li><a href=""><i class="glyphicon glyphicon-home"></i> Menu</a></li>
 					<li class="submenu">
 						<a href="#">
-							<i class="glyphicon glyphicon-list"></i> Personal
+							<i class="fa fa-male"></i> Personal
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
@@ -84,12 +84,14 @@
 					</li>
 					<li class="submenu">
 						<a href="#">
-							<i class="glyphicon glyphicon-list"></i> Activos
+							<i class="fa fa-desktop"></i> Activos Fijos
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Nuevo</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Alta</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Baja</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Transferencia</a></li>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista</a></li>
 						</ul>
 					</li>
@@ -108,12 +110,38 @@
 
 					<li class="submenu">
 						<a href="#">
-							<i class="glyphicon glyphicon-list"></i> Usuarios
+							<i class="fa fa-users"></i> Usuarios
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
 						<ul>
 							<li><a href="<?php echo base_url();?>usuarios/Cusuario">Lista Usuarios</a></li>
+						</ul>
+					</li>
+
+					<li class="submenu">
+						<a href="#">
+							<i class="fa fa-file-o"></i> Reportes
+							<span class="caret pull-right"></span>
+						</a>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>reportes/CEntrega/ver_actas">Actas</a></li>
+						</ul>
+					</li>
+
+					<li class="submenu">
+						<a href="#">
+							<i class="fa fa-gears"></i> Opciones
+							<span class="caret pull-right"></span>
+						</a>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>cargo/CCargo/">Cargos</a></li>
+						</ul>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>departamento/CDepartamento/">Departamentos</a></li>
 						</ul>
 					</li>
 					<br><br><br><br><br><br><br><br><br><br>

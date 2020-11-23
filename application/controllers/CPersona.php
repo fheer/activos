@@ -7,6 +7,7 @@ class CPersona extends CI_Controller{
 	{
 		parent::__construct();
 		$this->load->model('Persona_model');
+		$this->load->model('Departamento_model');
 		$this->load->model('Cargo_model');
 	}
 
@@ -26,7 +27,9 @@ class CPersona extends CI_Controller{
 	 */
 	function insertPerson()
 	{
+		$data['departamento'] = $this->Departamento_model->get_all_departamento();
 		$data['cargo'] = $this->Cargo_model->get_all_cargo();
+		$data['expedido'] = $this->Persona_model->get_expedido();;
 		$this->load->view('layout/header');
 		$this->load->view('persona/vpersona',$data);
 		$this->load->view('layout/footer');
@@ -35,59 +38,18 @@ class CPersona extends CI_Controller{
 	/*
 	 * Go to Edit Person
 	 */
-	function updatePerson()
+	function updatePerson($idPersona)
 	{
-		$idPersona = $this->input->post('idPer');
-		$data = json_encode($this->Persona_model->select_persona($idPersona));
-
-		$array = json_decode($data);
-		foreach($array as $obj){
-			$param['idPersona'] = $idPersona;
-			$param['ci'] = $obj->ci;
-			$param['nombres'] = $obj->nombres;
-			$param['apellidoPaterno'] = $obj->apellidoPaterno;
-			$param['apellidoMaterno'] = $obj->apellidoMaterno;
-			$param['telefono'] = $obj->telefono;
-			$param['direccion'] = $obj->direccion;
-			$param['foto'] = $obj->foto;
-			$param['email'] = $obj->email;
-		}
-
+		$persona = $this->Persona_model->get_persona($idPersona);
+		$data['persona'] = $this->Persona_model->get_persona($idPersona);
+		$data['departamento'] = $this->Departamento_model->get_all_departamento();
+		$data['cargo'] = $this->Cargo_model->get_all_cargo();
+		$data['dpto'] = $this->Departamento_model->get_departamento($persona['idDepartamento']);
+		$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
+		$data['expedido'] = $this->Persona_model->get_expedido();;
 		$this->load->view('layout/header');
-		$this->load->view('persona/vupersona',$param);
+		$this->load->view('persona/vupersona',$data);
 		$this->load->view('layout/footer');
-	}
-
-	/*
-	 * Go to Edit Person
-	 */
-	function updatePerson2($idPersona)
-	{
-		$data = json_encode($this->Persona_model->select_persona($idPersona));
-
-		$array = json_decode($data);
-		foreach($array as $obj){
-			$param['idPersona'] = $idPersona;
-			$param['ci'] = $obj->ci;
-			$param['nombres'] = $obj->nombres;
-			$param['apellidoPaterno'] = $obj->apellidoPaterno;
-			$param['apellidoMaterno'] = $obj->apellidoMaterno;
-			$param['telefono'] = $obj->telefono;
-			$param['direccion'] = $obj->direccion;
-			$param['foto'] = $obj->foto;
-			$param['email'] = $obj->email;
-		}
-
-		$this->load->view('layout/header');
-		$this->load->view('persona/vupersona',$param);
-		$this->load->view('layout/footer');
-	}
-	/**
-	 * Get persona by idPersona
-	 */
-	function select_persona()
-	{
-		echo json_encode($this->model->select_persona($this->input->post('idPersona')));
 	}
 
 	/**
@@ -95,14 +57,14 @@ class CPersona extends CI_Controller{
 	 */
 	function get_persona()
 	{
-		echo json_encode($this->model->get_persona($this->input->post('idPersona')));
+		echo json_encode($this->Persona_model->get_persona($this->input->post('idPersona')));
 	}
 
 	/*
 	 * Get persona by idPersona
 	 */
 	public function get_all_personas(){
-		echo json_encode($this->model->get_all_personas());
+		echo json_encode($this->Persona_model->get_all_personas());
 	}
 
 	/*
@@ -118,7 +80,7 @@ class CPersona extends CI_Controller{
 		$this->form_validation->set_rules('direccion','Direccion','callback_address');
 		$this->form_validation->set_rules('telefono','Telefono','required|integer');
 		$this->form_validation->set_rules('email','Email','required|valid_email');
-		$this->form_validation->set_rules('cargo','Cargo','required');
+		$this->form_validation->set_rules('idCargo','Cargo','required');
 	}
 
 	/*
@@ -154,7 +116,8 @@ class CPersona extends CI_Controller{
 	private function parametros()
 	{
 		$params = array(
-			'cargo' => trim($this->input->post('cargo')),
+			'idCargo' => trim($this->input->post('idCargo')),
+			'idDepartamento' => trim($this->input->post('idDepartamento')),
 			'ci' => trim($this->input->post('ci')),
 			'nombres' => trim($this->onlyOneSpace($this->input->post('nombre'))),
 			'apellidoPaterno' => trim($this->onlyOneSpace($this->input->post('apellidoPaterno'))),
@@ -163,6 +126,7 @@ class CPersona extends CI_Controller{
 			'telefono' => trim($this->input->post('telefono')),
 			'email' => trim($this->input->post('email')),
 			'fechaRegistro' => trim(date("Y-m-d H:m:s")),
+			'expedido' => trim($this->input->post('idExpedido')),
 			'foto' => $this->subirImagen(),
 		);
 		return $params;
@@ -178,11 +142,11 @@ class CPersona extends CI_Controller{
 		{
 			$params = $this->parametros();
 			$persona_id = $this->Persona_model->add_persona($params);
-			$data['_view'] = 'persona/add';
 			redirect(base_url().CPersona);
 		}
 		else
 		{
+			$data['cargo'] = $this->Cargo_model->get_all_cargo();
 			$this->load->view('layout/header');
 			$this->load->view('persona/vpersona',$data);
 			$this->load->view('layout/footer');
@@ -251,7 +215,7 @@ class CPersona extends CI_Controller{
 			}
 			else
 			{
-				$this->updatePerson2($idPersona);
+				$this->updatePerson($idPersona);
 			}
 		}
 		else
@@ -296,6 +260,7 @@ class CPersona extends CI_Controller{
 			redirect(base_url().CPersona);
 		}
 	}
+
 	/**
 	 * Alpha and spaces
 	 *

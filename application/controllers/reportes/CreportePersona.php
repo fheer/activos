@@ -9,7 +9,8 @@ class CreportePersona extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Persona_model');
-		$this->load->add_package_path(APPPATH .'third_party/fpdf');
+
+		require_once  APPPATH.'third_party/fpdf/Fpdf.php';
 	}
 
 	public function datosPersona()
@@ -35,7 +36,7 @@ class CreportePersona extends CI_Controller
 		$this->pdf->Cell(30,5,utf8_decode("Telefono"),'TBLR',0,'L',1);
 		$this->pdf->Cell(60,5,utf8_decode("email"),'TBLR',0,'L',1);
 		$this->pdf->Ln(5);
-
+		$this->pdf->SetFont('Arial','',12);
 		$indice=1;
 		foreach ($data as $row) {
 			$apellidoPaterno=$row->apellidoPaterno;

@@ -27,7 +27,7 @@
 	</div>
 </div>
 		<?php
-		if(strtolower($this->session->userdata('s_nuevo')) == 'S') :
+		if(strtolower($this->session->userdata('s_nuevo')) == 's') :
 			?>
 			<script>
 				$(document).ready(function(){

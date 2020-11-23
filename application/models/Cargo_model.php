@@ -16,10 +16,29 @@ class Cargo_model extends CI_Model
 	}
 
 	/*
+     * Get cargo by idCargo
+     */
+	function validate_cargo($cargo)
+	{
+		$this->db->select('idCargo,cargo');
+		$this->db->from('cargo');
+		$this->db->where('cargo=',$cargo);
+
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() > 0) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	/*
      * Get all cargo
      */
 	function get_all_cargo()
 	{
+		$this->db->where('eliminado=1');
 		$this->db->order_by('idCargo', 'desc');
 		return $this->db->get('cargo')->result_array();
 	}
@@ -36,7 +55,7 @@ class Cargo_model extends CI_Model
 	/*
      * function to update cargo
      */
-	function update_cargo($idCargo,$params)
+	function update_cargo($idCargo, $params)
 	{
 		$this->db->where('idCargo',$idCargo);
 		return $this->db->update('cargo',$params);
@@ -45,8 +64,9 @@ class Cargo_model extends CI_Model
 	/*
      * function to delete cargo
      */
-	function delete_cargo($idCargo)
+	function delete_cargo($idCargo, $params)
 	{
-		return $this->db->delete('cargo',array('idCargo'=>$idCargo));
+		$this->db->where('idCargo',$idCargo);
+		return $this->db->update('cargo',$params);
 	}
 }
