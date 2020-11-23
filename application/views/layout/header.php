@@ -143,6 +143,11 @@
 						<ul>
 							<li><a href="<?php echo base_url();?>departamento/CDepartamento/">Departamentos</a></li>
 						</ul>
+						<!-- Sub menu -->
+						<h></h>
+						<ul>
+							<li><a href="<?php echo base_url();?>estado/CEstado/">Estado</a></li>
+						</ul>
 					</li>
 					<br><br><br><br><br><br><br><br><br><br>
 				</ul>
