@@ -75,6 +75,7 @@ class Activofijo_model extends CI_Model
 			'idPersona' => $idPersona,
 			'idActivofijo' => $idActivofijo,
 			'fechaEntrega' => date('Y-m-d H:i:s', time()),
+			'idNewOwner' => $this->input->post('idPersona'),
 		);
 		$this->db->insert('asignacion',$paramsAsignar);
 

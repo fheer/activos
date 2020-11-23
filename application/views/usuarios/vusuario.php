@@ -44,9 +44,9 @@
 										<label for="clave" class="col-md-6 control-label">Contraseña</label>
 										<input class="form-control" id="clave" name="clave" type="text">
 									</div>
-									<div class="form-group col-md-6">
+									<div class="form-group col-md-10">
 										<label hidden for="claveHash" class="col-md-6 control-label">clave Hash</label>
-										<input  type="hidden" class="form-control" id="claveHash" name="claveHash">
+										<input  type="text" class="form-control" id="claveHash" name="claveHash">
 									</div>
 									<br>
 									<div class="form-group col-md-4">
@@ -75,6 +75,14 @@
 													elUser.value = data ;
 												}
 											});
+											/*$.ajax({
+												url: baseurl+"usuarios/CUsuario/get_ci_persona/"+this.value,
+												method:"POST",
+												success: function(data) {
+													pass = data;
+													psw.value = data ;
+												}
+											});*/
 											$.ajax({
 												url: baseurl+"usuarios/CUsuario/generate_password/",
 												method:"POST",
@@ -84,10 +92,10 @@
 												}
 											});
 											$.ajax({
-												url: baseurl+"usuarios/CUsuario/hash_generate_password/"+ pass,
+												url: baseurl+"usuarios/CUsuario/hash_generate_password_for_js/"+ pass.trim(),
 												method:"POST",
 												success: function(data) {
-													pswHash.value = data ;
+													pswHash.value = data.trim() ;
 												}
 											});
 											$.ajax({
@@ -97,7 +105,6 @@
 													emailPersona.value = data ;
 												}
 											});
-
 										};
 									</script>
 								</div>

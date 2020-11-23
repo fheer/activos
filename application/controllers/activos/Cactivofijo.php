@@ -9,12 +9,13 @@ class Cactivofijo extends CI_Controller{
 		$this->load->model('Asignar_model');
 		$this->load->model('Obtenido_model');
 		$this->load->model('Estado_model');
+		$this->load->model('Departamento_model');
 		$this->load->library('qrcode/Ciqrcode');
 
 	}
 
 	/*
-     * Listing of Activo fijo
+     * Index of Activo fijo
      */
 	function index()
 	{
@@ -25,11 +26,18 @@ class Cactivofijo extends CI_Controller{
 	}
 
 	/*
+     * Get activofijo by idActivofijo
+     */
+	function get_activofijo($idActivofijo)
+	{
+		return $this->Activofijo_model->get_activofijo($idActivofijo);
+	}
+
+	/*
      * Listing of Activo fijo
      */
 	function ver($codigo)
 	{
-		echo $codigo;
 		$data['activofijo'] = $this->Activofijo_model->get_activofijo_codigo_numeroSerie($codigo);
 		//$this->load->view('layout/header');
 		$this->load->view('activos/vmostrar',$data);
@@ -195,6 +203,7 @@ class Cactivofijo extends CI_Controller{
 
 		return "qr_$code.png";
 	}
+
 	/**
 	 * Parameters Method
 	 */

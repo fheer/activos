@@ -29,10 +29,10 @@ class CAsignar extends CI_Controller
 	function asignar()
 	{
 		$data['persona'] = $this->Persona_model->get_all_persona();
-		$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();
+		$data['activofijo'] = $this->Asignar_model->get_ativos_fijos_asignados_by_idpersona($this->session->userdata('s_idPersona'));
 		$data['mensaje'] = '';
 		$this->load->view('layout/header');
-		$this->load->view('asignar/vasignar',$data);
+		$this->load->view('asignar/vasignar', $data);
 		$this->load->view('layout/footer');
 	}
 
@@ -41,6 +41,7 @@ class CAsignar extends CI_Controller
 	 */
 	function add()
 	{
+		$idPersona = $this->session->userdata('s_idPersona');
 		$checkboxArray = $this->input->post('asignado');
 		if (!empty($checkboxArray)) {
 			foreach ($checkboxArray as $checkbox){
@@ -49,16 +50,21 @@ class CAsignar extends CI_Controller
 					'idPersona' => $this->input->post('idPersona'),
 					'idActivofijo' => $checkbox,
 					'fechaEntrega' => date('Y-m-d H:i:s', time()),
+					'idNewOwner' => $this->input->post('idPersona'),
 				);
-				$paramsActivoFijo = array(
+				$paramsUpdateIdNewOnwer = array(
+					'idNewOwner' => $this->input->post('idPersona'),
 					'idActivofijo' => $checkbox,
+					'fechaLiberacion' => date('Y-m-d H:i:s', time()),
 					'fechaEntrega' => date('Y-m-d H:i:s', time()),
 				);
-				$data['activofijo'] = $this->Asignar_model->add_asginacion($params);
-				//$this->Activofijo_model->update_activofijo($checkbox, $paramsActivoFijo);
 
+				$data['activofijo'] = $this->Asignar_model->add_asginacion($params, $paramsUpdateIdNewOnwer, $checkbox, $idPersona);
+				//$this->Activofijo_model->update_activofijo($checkbox, $paramsActivoFijo);
 			}
-			redirect(base_url().'asignar/CAsignar','refresh');
+			$idPersonaAsignada = $this->input->post('idPersona');
+			//redirigir a la lista de acta
+			redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
 		}else {
 			$data['persona'] = $this->Persona_model->get_all_persona();
 			$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();
@@ -81,6 +87,7 @@ class CAsignar extends CI_Controller
 					'idPersona' => $this->input->post('idPersona'),
 					'idActivofijo' => $checkbox,
 					'fechaEntrega' => date('Y-m-d H:i:s', time()),
+					'idNewOwner' => $this->input->post('idPersona'),
 				);
 			}
 			return $params;

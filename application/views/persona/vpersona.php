@@ -10,6 +10,14 @@
 									<input type="text" class="form-control input-sm" name="ci" value="<?php echo $this->input->post('ci'); ?>"  id="ci" />
 									<span class="text-danger"><?php echo form_error('ci');?></span>
 								</div>
+								<div class="col-md-2">
+									<select name="idExpedido" id="idExpedido" class="form-control">
+										<?php foreach($expedido as $row) { ?>
+											<option value="<?php echo $row['expedido']; ?>"><?php echo $row['expedido']; ?></option>
+										<?php } ?>
+									</select>
+									<span class="text-danger"><?php echo form_error('cargo');?></span>
+								</div>
 							</div>
 							<div class="form-group">
 								<label for="nombre" class="col-md-4 control-label"><span class="text-danger">*</span> Nombres</label>
@@ -33,9 +41,19 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="cargo" class="col-md-4 control-label"><span class="text-danger">*</span> Departamento</label>
+								<div class="col-md-5">
+									<select name="idDepartamento" id="idDepartamento" class="form-control">
+										<?php foreach($departamento as $row) { ?>
+											<option value="<?php echo $row['idDepartamento']; ?>"><?php echo $row['departamento']; ?></option>
+							 			<?php } ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="cargo" class="col-md-4 control-label"><span class="text-danger">*</span> Cargo</label>
 								<div class="col-md-3">
-									<select name="cargo" id="cargo" class="form-control">
+									<select name="idCargo" id="idCargo" class="form-control">
 									<?php foreach($cargo as $row) { ?>
 										<option value="<?php echo $row['idCargo']; ?>"><?php echo $row['cargo']; ?></option>
 									<?php } ?>
@@ -59,7 +77,7 @@
 							</div>
 							<div class="form-group">
 								<label for="email" class="col-md-4 control-label"><span class="text-danger">*</span> Email</label>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<input type="text" name="email" value="<?php echo $this->input->post('email'); ?>" class="form-control" id="email" />
 									<span class="text-danger"><?php echo form_error('email');?></span>
 								</div>

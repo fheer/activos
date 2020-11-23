@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Oscar
- * Date: 16/11/2020
- * Time: 10:14 AM
- */
 class Estado_model extends CI_Model
 {
 	function __construct()

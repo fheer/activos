@@ -32,7 +32,7 @@ class Usuario_model extends CI_Model
 	}
 
 	/*
-     * Get meail persona
+     * Get email persona
      */
 	function get_email_persona($idPersona)
 	{
@@ -43,6 +43,20 @@ class Usuario_model extends CI_Model
 
 		$resultado = $r->row();
 		return $resultado->email;
+	}
+
+	/*
+     * Get ci persona
+     */
+	function get_ci_persona($idPersona)
+	{
+		$this->db->select("ci");
+		$this->db->from("persona");
+		$this->db->where("idPersona",$idPersona);
+		$r = $this->db->get();
+
+		$resultado = $r->row();
+		return $resultado->ci;
 	}
 
 	/*
@@ -84,6 +98,7 @@ class Usuario_model extends CI_Model
      */
 	function add_usuario($params)
 	{
+		//print_r($params);
 		$this->db->insert('usuario',$params);
 		return $this->db->insert_id();
 	}

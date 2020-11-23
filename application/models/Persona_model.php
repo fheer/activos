@@ -47,15 +47,30 @@ class Persona_model extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	/*
-   * Get all persona
-   */
 	function get_all_persona()
 	{
 		$this->db->where("eliminado",1);
 		$this->db->order_by('apellidoPaterno', 'asc');
 		return $this->db->get('persona')->result_array();
 	}
+
+	/*
+   	 * Get all persona
+  	 */
+	function get_expedido()
+	{
+		$this->db->order_by('expedido', 'asc');
+		return $this->db->get('expedido')->result_array();
+	}
+
+	/*
+     * Get persona by idPersona
+     */
+	function get_firmas($idPersona)
+	{
+		return $this->db->get_where('firmas')->row_array();
+	}
+
 
 	/*
      * function to add new persona

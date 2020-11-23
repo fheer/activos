@@ -41,6 +41,16 @@ class CUsuario extends CI_Controller{
 	}
 
 	/*
+     * Get ci
+     */
+	function get_ci_persona($idPersona)
+	{
+		$data = $this->Usuario_model->get_ci_persona($idPersona);
+		echo $data;
+	}
+
+
+	/*
      * Adding a new usuario
      */
 	function add()
@@ -66,9 +76,18 @@ class CUsuario extends CI_Controller{
 				if (isset($checbox4)) {
 					$permisos .= md5('Usuarios');
 				}
+				//echo '<br>';
+				//echo $this->input->post('clave');
+				//echo '<br>';
+				$claveHash1 = $this->hash_generate_password($this->input->post('clave'));
+				//echo '<br>';
+				//echo strlen($claveHash1);
+				//echo 'Clave Generada:'.$claveHash1;
+				//echo '<br>';
+				//echo 'Clave post-------:'.$this->input->post('claveHash');
 				$params = array(
-					'user' => $this->input->post('user'),
-					'clave' => $this->input->post('claveHash'),
+					'user' => trim($this->input->post('user')),
+					'clave' => $claveHash1,
 					'permiso' => $permisos,
 					'idPersona' => $this->input->post('idPersona'),
 				);
@@ -142,7 +161,7 @@ class CUsuario extends CI_Controller{
 	public function generate_password()
 	{
 		// Genera contraseña
-		$cadena =  'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz[]{}\|=+!@#%^&*()_,./<>?;:';
+		$cadena =  'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
 		$password = '';
 		$cantidad = strlen($cadena) - 1;
 
@@ -159,6 +178,18 @@ class CUsuario extends CI_Controller{
 	 * Generate hash passsword
 	 */
 	public function hash_generate_password($password)
+	{
+		// Hash
+		$password = password_hash($password, PASSWORD_BCRYPT,[5]);
+		// Hash
+		$hash = substr($password, 0, 60);
+		return $hash;
+	}
+
+	/*
+	 * Generate hash passsword
+	 */
+	public function hash_generate_password_for_js($password)
 	{
 		// Hash
 		$password = password_hash($password, PASSWORD_BCRYPT,[5]);
