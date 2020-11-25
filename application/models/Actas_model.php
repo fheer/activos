@@ -34,4 +34,14 @@ class Actas_model extends CI_Model
 		$this->db->order_by('fecha', 'desc');
 		return $this->db->get('actas')->result_array();
 	}
+
+	/*
+     * get acta ny idPersona
+     */
+	function get_actas_($idPersona)
+	{
+		$this->db->where('idPersona', $idPersona);
+		$this->db->order_by('fecha', 'desc');
+		return $this->db->get('actas')->result_array();
+	}
 }

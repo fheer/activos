@@ -9,6 +9,8 @@ class CPerfil extends CI_Controller {
 		$this->load->model('Persona_model');
 		$this->load->model('Departamento_model');
 		$this->load->model('Cargo_model');
+		$this->load->model('Asignar_model');
+		$this->load->model('Actas_model');
 	}
 
 	public function index(){
@@ -18,6 +20,19 @@ class CPerfil extends CI_Controller {
 		$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
 		$this->load->view('layout/header');
 		$this->load->view('perfil/vperfil', $data);
+		$this->load->view('layout/footer');
+	}
+
+	/*
+     * Liberar function
+     */
+	function liberar()
+	{
+		$data['persona'] = $this->Persona_model->get_all_persona();
+		$data['activofijo'] = $this->Asignar_model->get_ativos_fijos_asignados_by_idpersona($this->session->userdata('s_idPersona'));
+		$data['mensaje'] = '';
+		$this->load->view('layout/header');
+		$this->load->view('perfil/vliberar', $data);
 		$this->load->view('layout/footer');
 	}
 
@@ -78,15 +93,11 @@ class CPerfil extends CI_Controller {
 		$this->form_validation->set_rules('clave','Contraseña','callback_alpha_numeric_spaces');
 	}
 
-	/*
-	 * Generate hash passsword
-	 */
-	public function hash_generate_password($password)
-	{
-		// Hash
-		$password = password_hash($password, PASSWORD_BCRYPT,[5]);
-		// fin Hash
-		return $password;
+	function my_actas(){
+		$data['actas'] = $this->Actas_model->get_all_actas();
+		$this->load->view('layout/header');
+		$this->load->view('perfil/vactas',$data);
+		$this->load->view('layout/footer');
 	}
 
 	/**

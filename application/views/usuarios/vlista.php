@@ -30,7 +30,68 @@
 						<td align="center"><?php echo $i; ?></td>
 						<td><?php echo $row['nombre']; ?></td>
 						<td><?php echo $row['user']; ?></td>
-						<td><?php echo $row['permiso']; ?></td>
+						<td>
+						<?php
+						//echo $row['permiso'];
+						$permisos = explode("#",$row['permiso']);
+
+						$vacio =  count($permisos);
+						if ($vacio==1)
+						{
+							$vacio=0;
+						}
+						$personalMd5 = md5("Personal");
+						$activosFijosMd5 = md5("Activos");
+						$movimientosMd5 = md5("Movimientos");
+						$usuariosMd5 = md5("Usuarios");
+						$reportesMd5 = md5("Reportes");
+						$opcionesMd5 = md5("Opciones");
+						$perfilMd5 = md5("Perfil");
+
+						foreach ($permisos as $permisoMd5)
+						{
+
+							switch ($permisoMd5)
+							{
+								case $perfilMd5:
+									echo "<span>
+									<i class='fa fa-user-secret'></i> Perfil
+									</span>";
+									break;
+								case $personalMd5:
+									echo "<span>
+									<i class='fa fa-male'></i> Personal
+									</span>";
+									break;
+								case $activosFijosMd5:
+									echo "<span>
+									<i class='fa fa-desktop'></i> Activos Fijos
+									</span>";
+									break;
+								case $movimientosMd5:
+									echo "<span>
+									<i class='fa fa-list'></i> Movimientos
+									</span>";
+									break;
+								case $usuariosMd5:
+									echo "<span>
+									<i class='fa fa-users'></i> Usuarios
+									</span>";
+									break;
+								case $reportesMd5:
+									echo "<span>
+									<i class='fa fa-print'></i> Reportes
+									</span>";
+									break;
+								case $opcionesMd5:
+									echo "<span>
+									<i class='fa fa-gears'></i> Opciones
+									</span>";
+									break;
+							}
+						}
+						?>
+						</td>
 						<td><img src="<?php echo base_url().'fotos/personas/'.$row['foto'];?>" width="60" height="80"></td>
 						<td>
 							<span class="pull-right">
@@ -42,7 +103,7 @@
 									</button>
 									 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
 										 <li>
-											 <a href="<?php echo base_url().'activos/Cactivofijo/select_activofijo/'.$row['idUsuario']; ?>"
+											 <a href="<?php echo base_url().'usuarios/CUsuario/edit_User/'.$row['idUsuario']; ?>"
 												title="Modificar informacion" onClick="">
 												 <i style="color:#555;" class="glyphicon glyphicon-edit"></i> Modificar
 											 </a>

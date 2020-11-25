@@ -13,7 +13,7 @@ class Persona_model extends CI_Model
      */
 	function select_persona($idPersona)
 	{
-		$this->db->select('idPersona,ci,nombres,apellidoPaterno,apellidoMaterno,direccion,telefono,foto,email,cargo');
+		$this->db->select('idPersona,ci,nombres,apellidoPaterno,apellidoMaterno,direccion,telefono,foto,email,idCargo');
 		$this->db->from('persona');
 		$this->db->where('idPersona',$idPersona);
 
@@ -27,6 +27,14 @@ class Persona_model extends CI_Model
 	function get_persona($idPersona)
 	{
 		return $this->db->get_where('persona',array('idPersona'=>$idPersona))->row_array();
+	}
+
+	/*
+     * Get persona by idPersona
+     */
+	function get_persona_encargado_af()
+	{
+		return $this->db->get_where('persona',array('userActivos'=>'S'))->row_array();
 	}
 
 	/*

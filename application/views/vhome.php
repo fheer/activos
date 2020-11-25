@@ -4,19 +4,20 @@
 					<section class="content">
 						<div class="row">
 							<div class="col-md-10">
-								<!-- ./col -->
-								<div class="col-lg-3 col-xs-6">
-									<!-- small box -->
-									<div class="small-box bg-yellow">
-										<div class="inner">
-											<h3><?php echo $countPersona; ?><sup style="font-size: 20px"></sup></h3>
+								<div class="col-md-4 col-xs-6">
+									<div class="info-box">
+										<span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+
+										<div class="info-box-content">
 											<span class="fa fa-users fa-2x"></span>
-											<sup style="font-size: 20px">  Personal</sup>
-
+											<span class="info-box-text">Personal <?php echo $countPersona;?></span>
+											<span class="info-box-number">
+												<a href="<?php echo base_url();?>Cpersona" class="small-box-footer">Mostrar <i class="fa fa-arrow-circle-right"></i></a>
+											</span>
 										</div>
-
-										<a href="<?php echo base_url();?>Cpersona" class="small-box-footer">Mostrar <i class="fa fa-arrow-circle-right"></i></a>
+										<!-- /.info-box-content -->
 									</div>
+									<!-- /.info-box -->
 								</div>
 							</div>
 						</div>

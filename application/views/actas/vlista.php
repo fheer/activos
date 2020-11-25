@@ -27,7 +27,9 @@
 				<?php $i = 1; foreach ($actas as $row) { ?>
 					<tr class="gradeA">
 						<td align="center"><?php echo $i; ?></td>
-						<td><?php echo $row['url']; ?></td>
+						<td>
+							<a href="<?php echo base_url().'actas/'.$row['url']; ?>" target="_blank"><?php echo $row['url']; ?></a>
+						</td>
 						<td>
 						<?php
 						if ($row['tipo'] == 'E'){

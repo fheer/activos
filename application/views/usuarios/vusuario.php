@@ -7,7 +7,6 @@
 				?>
 					<div class="alert alert-danger alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<h4><i class="icon fa fa-ban"></i> Mensaje</h4>
 						<?php echo $mensaje; ?>
 					</div>
 				<?php
@@ -39,10 +38,12 @@
 									<div class="form-group col-md-4">
 										<label for="user" class="col-md-6 control-label">Usuario</label>
 										<input class="form-control" id="user" name="user" type="text" >
+										<span class="text-danger"><?php echo form_error('user');?></span>
 									</div>
 									<div class="form-group col-md-4">
 										<label for="clave" class="col-md-6 control-label">Contraseña</label>
 										<input class="form-control" id="clave" name="clave" type="text">
+										<span class="text-danger"><?php echo form_error('clave');?></span>
 									</div>
 									<div class="form-group col-md-10">
 										<label hidden for="claveHash" class="col-md-6 control-label">clave Hash</label>
@@ -75,14 +76,6 @@
 													elUser.value = data ;
 												}
 											});
-											/*$.ajax({
-												url: baseurl+"usuarios/CUsuario/get_ci_persona/"+this.value,
-												method:"POST",
-												success: function(data) {
-													pass = data;
-													psw.value = data ;
-												}
-											});*/
 											$.ajax({
 												url: baseurl+"usuarios/CUsuario/generate_password/",
 												method:"POST",
@@ -121,6 +114,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>
+												<input type="checkbox" id="perfil" name="perfil" class="flat-green"
+													   readonly="readonly" checked onclick="javascript: return false;">
+												Perfil
+											</label>
+										</div>
+										<div class="form-group">
+											<label>
 												<input type="checkbox" id="personal" name="personal" class="flat-green">
 												Personal
 											</label>
@@ -131,23 +131,33 @@
 												Activos
 											</label>
 										</div>
-									</div>
-									<div class="col-md-6">
 										<div class="form-group">
 											<label>
 												<input type="checkbox" id="movimientos" name="movimientos" class="flat-green">
 												Movimientos
 											</label>
 										</div>
+									</div>
+									<div class="col-md-6">
 										<div class="form-group">
 											<label>
 												<input type="checkbox" id="usuarios" name="usuarios" class="flat-green">
 												Usuarios
 											</label>
 										</div>
+										<div class="form-group">
+											<label>
+												<input type="checkbox" id="reportes" name="reportes" class="flat-green">
+												Reportes
+											</label>
+										</div>
+										<div class="form-group">
+											<label>
+												<input type="checkbox" id="opciones" name="opciones" class="flat-green">
+												Opciones
+											</label>
+										</div>
 									</div>
-
-
 								</div>
 								<!-- /.box-body -->
 							</div>
