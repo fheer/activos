@@ -7,10 +7,20 @@ class CPerfil extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Usuario_model');
 		$this->load->model('Persona_model');
+		$this->load->model('Departamento_model');
+		$this->load->model('Cargo_model');
 	}
-	public function index(){
 
+	public function index(){
+		$persona = $this->Persona_model->get_persona($this->session->userdata('s_idPersona'));
+		$data['persona'] = $this->Persona_model->get_persona($this->session->userdata('s_idPersona'));
+		$data['dpto'] = $this->Departamento_model->get_departamento($persona['idDepartamento']);
+		$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
+		$this->load->view('layout/header');
+		$this->load->view('perfil/vperfil', $data);
+		$this->load->view('layout/footer');
 	}
+
 	public function change_password(){
 
 		$data['usuario'] = $this->Usuario_model->get_user_name($this->session->userdata('s_idUsuario'));

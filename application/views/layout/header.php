@@ -73,6 +73,17 @@
 					<li><a href=""><i class="glyphicon glyphicon-home"></i> Menu</a></li>
 					<li class="submenu">
 						<a href="#">
+							<i class="fa fa-user-secret"></i> Perfil
+							<span class="caret pull-right"></span>
+						</a>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>perfil/CPerfil">Ver Perfil</a></li>
+							<li><a href="<?php echo base_url();?>CPersona">Lista</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#">
 							<i class="fa fa-male"></i> Personal
 							<span class="caret pull-right"></span>
 						</a>
@@ -121,12 +132,16 @@
 
 					<li class="submenu">
 						<a href="#">
-							<i class="fa fa-file-o"></i> Reportes
+							<i class="fa fa-print"></i> Reportes
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
 						<ul>
 							<li><a href="<?php echo base_url();?>reportes/CEntrega/ver_actas">Actas</a></li>
+						</ul>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>etiqueta/CEtiqueta/">Etiquetas</a></li>
 						</ul>
 					</li>
 
@@ -144,7 +159,6 @@
 							<li><a href="<?php echo base_url();?>departamento/CDepartamento/">Departamentos</a></li>
 						</ul>
 						<!-- Sub menu -->
-						<h></h>
 						<ul>
 							<li><a href="<?php echo base_url();?>estado/CEstado/">Estado</a></li>
 						</ul>

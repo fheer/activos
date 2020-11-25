@@ -12,7 +12,7 @@ class Activofijo_model extends CI_Model
 	 */
 	function select_activofijo($idActivofijo)
 	{
-		$query = $this->db->where('idActivofijo',$idActivofijo);
+		$this->db->where('idActivofijo',$idActivofijo);
 		$query = $this->db->get('activofijo');
 		return $query->row_array();
 	}
@@ -220,5 +220,15 @@ class Activofijo_model extends CI_Model
 		}else{
 			return 0;
 		}
+	}
+
+	/*
+     * activo fijo count
+     */
+	function activo_fijo_count()
+	{
+		$this->db->where('eliminado=1');
+		$this->db->from('activofijo');
+		return $this->db->count_all_results();
 	}
 }

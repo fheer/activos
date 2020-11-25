@@ -76,15 +76,7 @@ class CUsuario extends CI_Controller{
 				if (isset($checbox4)) {
 					$permisos .= md5('Usuarios');
 				}
-				//echo '<br>';
-				//echo $this->input->post('clave');
-				//echo '<br>';
 				$claveHash1 = $this->hash_generate_password($this->input->post('clave'));
-				//echo '<br>';
-				//echo strlen($claveHash1);
-				//echo 'Clave Generada:'.$claveHash1;
-				//echo '<br>';
-				//echo 'Clave post-------:'.$this->input->post('claveHash');
 				$params = array(
 					'user' => trim($this->input->post('user')),
 					'clave' => $claveHash1,
