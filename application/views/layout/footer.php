@@ -4,7 +4,7 @@
 <footer>
 	<div class="container">
 		<div class="copy text-center">
-			Copyright <?php echo date('Y'); ?> <a href='#'>Incos - Nocturno</a>
+			Copyright <?php echo date('Y'); ?> <a href='#'>Unidad Educativa del Ejército - Cochabamba</a>
 		</div>
 	</div>
 </footer>
@@ -43,7 +43,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/forms.js"></script>
-
+<script src="<?php echo base_url(); ?>assets/js/app.min.js"></script>
 <script>
 		$("#sendform1").click(function () {
 			$.post('<?= site_url('Cpersona/addNew') ?>', $('#form1').serialize(), function (data) {

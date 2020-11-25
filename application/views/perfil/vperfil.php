@@ -70,15 +70,23 @@
 						</button>
 						<?php echo form_close(); ?>
 						<br>
-						<?php echo form_open(base_url().'perfil/CPerfil/edit/'.$persona['idPersona'],
+						<?php echo form_open(base_url().'perfil/CPerfil/liberar/'.$persona['idPersona'],
 							array("class"=>"form-inline")); ?>
-						<div class="btn btn-primary">
-							<i class="fa fa-desktop"></i>
+						<button type="submit" class="btn btn-primary"><i class="fa fa-desktop"></i>
 							Ver Activos Fijos Asignados
-						</div>
+						</button>
+						<?php echo form_close(); ?>
+						<br>
+						<?php echo form_open(base_url().'perfil/CPerfil/my_actas/'.$persona['idPersona'],
+							array("class"=>"form-inline")); ?>
+						<button type="submit" class="btn btn-primary"><i class="fa fa-desktop"></i>
+							Ver Actas
+						</button>
 						<?php echo form_close(); ?>
 					</div>
 				</div>
+
+				<?php echo form_close(); ?>
 			</div>
 		</div>
 	</div>

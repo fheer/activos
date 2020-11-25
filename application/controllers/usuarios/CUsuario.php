@@ -5,6 +5,7 @@ class CUsuario extends CI_Controller{
 	{
 		parent::__construct();
 		$this->load->model('Usuario_model');
+		$this->load->model('Persona_model');
 	}
 
 	/*
@@ -12,7 +13,6 @@ class CUsuario extends CI_Controller{
      */
 	function index()
 	{
-		//$data['usuario'] = $this->Usuario_model->get_all_usuario();
 		$data['usuario'] = $this->Usuario_model->get_name_all_usuario_personal();
 		$data['mensaje'] = '';
 		$this->load->view('layout/header');
@@ -28,6 +28,19 @@ class CUsuario extends CI_Controller{
 		$data['mensaje'] = '';
 		$this->load->view('layout/header');
 		$this->load->view('usuarios/vusuario',$data);
+		$this->load->view('layout/footer');
+	}
+
+	/*
+	 * Insert User
+	 */
+	function edit_User($idUsuario){
+		$usuario = $this->Usuario_model->get_usuario($idUsuario);
+		$data['usuario'] = $this->Usuario_model->get_usuario($idUsuario);
+		$data['persona'] = $this->Persona_model->get_persona($usuario['idPersona']);
+		$data['mensaje'] = '';
+		$this->load->view('layout/header');
+		$this->load->view('usuarios/vuuser',$data);
 		$this->load->view('layout/footer');
 	}
 
@@ -55,15 +68,41 @@ class CUsuario extends CI_Controller{
      */
 	function add()
 	{
-			if ($this->Usuario_model->verify_user_name($this->input->post('user'))== 0)
-			{
+			if ($this->Usuario_model->verify_user_name($this->input->post('user'))== 0) {
+				$checbox0 = $this->input->post('perfil');
 				$checbox1 = $this->input->post('personal');
 				$checbox2 = $this->input->post('activos');
 				$checbox3 = $this->input->post('movimientos');
 				$checbox4 = $this->input->post('usuarios');
-
+				$checbox5 = $this->input->post('reportes');
+				$checbox6 = $this->input->post('opciones');
 				$permisos = '';
-
+				if (isset($checbox0)) {
+					$permisos .= 'Perfil' . '#';
+				}
+				if (isset($checbox1)) {
+					$permisos .= 'Personal' . '#';
+				}
+				if (isset($checbox2)) {
+					$permisos .= 'Activos' . '#';
+				}
+				if (isset($checbox3)) {
+					$permisos .= 'Movimientos' . '#';
+				}
+				if (isset($checbox4)) {
+					$permisos .= 'Usuarios' . '#';
+				}
+				if (isset($checbox5)) {
+					$permisos .= 'Reportes' . '#';
+				}
+				if (isset($checbox6)) {
+					$permisos .= 'Opciones' . '#';
+				}
+				echo $permisos;
+				/*
+				if (isset($checbox0)) {
+					$permisos .= md5('Perfil').'#';
+				}
 				if (isset($checbox1)) {
 					$permisos .= md5('Personal').'#';
 				}
@@ -74,8 +113,16 @@ class CUsuario extends CI_Controller{
 					$permisos .= md5('Movimientos').'#';
 				}
 				if (isset($checbox4)) {
-					$permisos .= md5('Usuarios');
+					$permisos .= md5('Usuarios').'#';
 				}
+				if (isset($checbox5)) {
+					$permisos .= md5('Reportes').'#';
+				}
+				if (isset($checbox6)) {
+					$permisos .= md5('Opciones').'#';
+				}
+
+
 				$claveHash1 = $this->hash_generate_password($this->input->post('clave'));
 				$params = array(
 					'user' => trim($this->input->post('user')),
@@ -83,9 +130,21 @@ class CUsuario extends CI_Controller{
 					'permiso' => $permisos,
 					'idPersona' => $this->input->post('idPersona'),
 				);
-				$this->sendEmail( $this->input->post('email'), $this->input->post('user'), $this->input->post('clave'));
-				$this->Usuario_model->add_usuario($params);
-				redirect('usuarios/CUsuario','refresh');
+				$this->formValidation();
+
+				if($this->form_validation->run()) {
+					$this->sendEmail($this->input->post('email'), $this->input->post('user'), $this->input->post('clave'));
+					$this->Usuario_model->add_usuario($params);
+					redirect('usuarios/CUsuario', 'refresh');
+				}else{
+					$data['persona'] = $this->Usuario_model->get_name_all__personas();
+					$data['mensaje'] = '';
+					$this->load->view('layout/header');
+					$this->load->view('usuarios/vusuario',$data);
+					$this->load->view('layout/footer');
+				}
+
+
 			}
 			else
 			{
@@ -95,28 +154,63 @@ class CUsuario extends CI_Controller{
 				$this->load->view('usuarios/vusuario',$data);
 				$this->load->view('layout/footer');
 			}
-
+			*/
+			}
 	}
 
 	/*
      * Editing a usuario
      */
-	function edit($idUsuario)
+	function edit()
 	{
-		// check if the usuario exists before trying to edit it
-		$data['usuario'] = $this->Usuario_model->get_usuario($idUsuario);
+			$idUsuario = $this->input->post('idUsuario');
 
-				$params = array(
-					'eliminado' => $this->input->post('eliminado'),
-					'user' => $this->input->post('user'),
-					'clave' => $this->input->post('claveHash'),
-					'permiso' => $this->input->post('permiso'),
-					'idPersona' => $this->input->post('idPersona'),
-				);
+			$checbox0 = $this->input->post('perfil');
+			$checbox1 = $this->input->post('personal');
+			$checbox2 = $this->input->post('activos');
+			$checbox3 = $this->input->post('movimientos');
+			$checbox4 = $this->input->post('usuarios');
+			$checbox5 = $this->input->post('reportes');
+			$checbox6 = $this->input->post('opciones');
 
-				$this->Usuario_model->update_usuario($idUsuario,$params);
-				redirect('cusuario/index');
+			$permisos = '';
 
+			if (isset($checbox0)) {
+				$permisos .= md5('Perfil').'#';
+			}
+
+			if (isset($checbox1)) {
+				$permisos .= md5('Personal').'#';
+			}
+			if (isset($checbox2)) {
+				$permisos .= md5('Activos').'#';
+			}
+			if (isset($checbox3)) {
+				$permisos .= md5('Movimientos').'#';
+			}
+			if (isset($checbox4)) {
+				$permisos .= md5('Usuarios').'#';
+			}
+			if (isset($checbox5)) {
+				$permisos .= md5('Reportes').'#';
+			}
+			if (isset($checbox6)) {
+				$permisos .= md5('Opciones').'#';
+			}
+			$params = array(
+				'permiso' => $permisos,
+			);
+			$this->Usuario_model->update_usuario($idUsuario,$params);
+			redirect('usuarios/CUsuario','refresh');
+
+	}
+
+	function formValidation()
+	{
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('user','Usuario','required|max_length[20]');
+		$this->form_validation->set_rules('clave','Contraseña','required|max_length[70]');
 	}
 
 	/*

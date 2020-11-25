@@ -64,7 +64,39 @@ class CAsignar extends CI_Controller
 			}
 			$idPersonaAsignada = $this->input->post('idPersona');
 			//redirigir a la lista de acta
-			redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
+			//redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
+		}else {
+			$data['persona'] = $this->Persona_model->get_all_persona();
+			$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();
+			$data['mensaje'] = 'No selecciono ningun Activo fijo';
+			$this->load->view('layout/header');
+			$this->load->view('asignar/vasignar',$data);
+			$this->load->view('layout/footer');
+		}
+	}
+
+	/**
+	 * liberar activos fijos asignados
+	 */
+	function send_back()
+	{
+		$idPersona = $this->session->userdata('s_idPersona');
+		$data = $this->Persona_model->get_persona_encargado_af();
+		$userActivos = $data['idPersona'];
+		//echo $userActivos;
+		$checkboxArray = $this->input->post('asignado');
+		if (!empty($checkboxArray)) {
+			foreach ($checkboxArray as $checkbox){
+				$params = array(
+					'idActivofijo' => $checkbox,
+					'idNewOwner' => $userActivos,
+				);
+				$data['activofijo'] = $this->Asignar_model->update_asginacion($params, $checkbox, $idPersona);
+			}
+			//$idPersonaAsignada = $this->input->post('idPersona');
+			//redirigir a la lista de acta
+			//redirect(base_url().'perfil/CPerfil/','refresh');
+			redirect(base_url().'reportes/CDevolver/delvover_actas_pdf/'.$idPersona,'refresh');
 		}else {
 			$data['persona'] = $this->Persona_model->get_all_persona();
 			$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();

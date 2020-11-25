@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<title>Activos Fijos APP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<!-- jQuery UI -->
 	<link href="https://code.jquery.com/ui/1.11.3/themes/redmond/jquery-ui.css" rel="stylesheet" media="screen">
 	<!-- Bootstrap -->
 	<link href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- styles -->
 	<link href="<?php echo base_url();?>assets/css/styles.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>assets/css/stylesbox.css" rel="stylesheet">
 
 	<link href="<?php echo base_url();?>assets/vendors/form-helpers/css/bootstrap-formhelpers.min.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>assets/vendors/select/bootstrap-select.min.css" rel="stylesheet">
@@ -40,14 +42,20 @@
 					<h1><a href="">Gestión de Activos Fijos</a></h1>
 				</div>
 			</div>
+			<?php
+			$ci = &get_instance();
+			$ci->load->model('Persona_model');
 
+			$persona= $ci->Persona_model->get_persona($this->session->userdata('s_idPersona'));
+			$nombreCompleto = $persona['apellidoPaterno']. ' '.$persona['apellidoMaterno']. ' '.$persona['nombres']. ' ';
+			?>
 			<div class="col-md-4">
 				<div class="navbar navbar-inverse" role="banner">
 					<nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
 						<ul class="nav navbar-nav">
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<span ><?php echo $this->session->userdata('s_nomUser');?></span>
+									<span ><?php echo $nombreCompleto;?></span>
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu animated fadeInUp">
@@ -68,9 +76,57 @@
 	<div class="row">
 		<div class="col-md-2">
 			<div class="sidebar content-box" style="display: block;">
+				<?php
+				$ciU = &get_instance();
+				$ciU->load->model('Usuario_model');
+				$ciU->load->model('Persona_model');
+
+				$usuario = $ciU->Usuario_model->get_usuario($this->session->userdata('s_idUsuario'));
+				$permisos = explode("#",$usuario['permiso']);
+				$espacios = count($permisos);
+				$personalMd5 = md5("Personal");
+				$activosFijosMd5 = md5("Activos");
+				$movimientosMd5 = md5("Movimientos");
+				$usuariosMd5 = md5("Usuarios");
+				$reportesMd5 = md5("Reportes");
+				$opcionesMd5 = md5("Opciones");
+				$perfilMd5 = md5("Perfil");
+
+				foreach ($permisos as $permisoMd5)
+				{
+					switch ($permisoMd5)
+					{
+						case $perfilMd5:
+							$perfil = "Perfil";
+							break;
+						case $personalMd5:
+							$personal = "Personal";
+							break;
+						case $activosFijosMd5:
+							$activos = "Activos";
+							break;
+						case $movimientosMd5:
+							$movimientos = "Movimientos";
+							break;
+						case $usuariosMd5:
+							$usuarios = "Usuarios";
+							break;
+						case $reportesMd5:
+							$reportes = "Reportes";
+							break;
+						case $opcionesMd5:
+							$opciones = "Opciones";
+							break;
+					}
+				}
+				?>
 				<ul class="nav">
 					<!-- Main menu -->
 					<li><a href=""><i class="glyphicon glyphicon-home"></i> Menu</a></li>
+					<?php
+						if (!empty($perfil))
+						{
+					?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-user-secret"></i> Perfil
@@ -79,9 +135,15 @@
 						<!-- Sub menu -->
 						<ul>
 							<li><a href="<?php echo base_url();?>perfil/CPerfil">Ver Perfil</a></li>
-							<li><a href="<?php echo base_url();?>CPersona">Lista</a></li>
 						</ul>
 					</li>
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($personal))
+					{
+						?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-male"></i> Personal
@@ -93,6 +155,13 @@
 							<li><a href="<?php echo base_url();?>CPersona">Lista</a></li>
 						</ul>
 					</li>
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($activos))
+					{
+						?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-desktop"></i> Activos Fijos
@@ -106,9 +175,16 @@
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista</a></li>
 						</ul>
 					</li>
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($movimientos))
+					{
+						?>
 					<li class="submenu">
 						<a href="">
-							<i class="glyphicon glyphicon-list"></i> Movimientos
+							<i class="fa  fa-arrows-h"></i> Movimientos
 							<span class="caret pull-right"></span>
 						</a>
 						<!-- Sub menu -->
@@ -118,7 +194,13 @@
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/ver/Ele-123">Ver</a></li>
 						</ul>
 					</li>
-
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($usuarios))
+					{
+						?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-users"></i> Usuarios
@@ -129,7 +211,13 @@
 							<li><a href="<?php echo base_url();?>usuarios/Cusuario">Lista Usuarios</a></li>
 						</ul>
 					</li>
-
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($reportes))
+					{
+						?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-print"></i> Reportes
@@ -144,7 +232,13 @@
 							<li><a href="<?php echo base_url();?>etiqueta/CEtiqueta/">Etiquetas</a></li>
 						</ul>
 					</li>
-
+					<?php
+					}
+					?>
+					<?php
+					if (!empty($opciones))
+					{
+						?>
 					<li class="submenu">
 						<a href="#">
 							<i class="fa fa-gears"></i> Opciones
@@ -163,7 +257,39 @@
 							<li><a href="<?php echo base_url();?>estado/CEstado/">Estado</a></li>
 						</ul>
 					</li>
-					<br><br><br><br><br><br><br><br><br><br>
+					<?php
+					}
+					?>
+					<?php
+					switch ($espacios)
+					{
+						case 1:
+							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+							break;
+						case 2:
+							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+							break;
+						case 3:
+							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+							break;
+						case 4:
+							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>";
+							break;
+						case 5:
+							echo "<br><br><br><br><br><br><br><br><br><br>";
+							break;
+						case 6:
+							echo "<br><br><br><br><br><br><br>";
+							break;
+						case 7:
+							echo "<br><br><br><br><br>";
+							break;
+						case 8:
+							echo "<br><br>";
+							break;
+					}
+					?>
+
 				</ul>
 			</div>
 		</div>

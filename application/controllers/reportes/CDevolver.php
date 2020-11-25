@@ -1,6 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class CEntrega extends CI_Controller
+
+class CDevolver extends CI_Controller
 {
 	function __construct()
 	{
@@ -11,7 +12,7 @@ class CEntrega extends CI_Controller
 		$this->load->model('Actas_model');
 		$this->load->model('Estado_model');
 		$this->load->model('Persona_model');
-		//$this->load->add_package_path(APPPATH .'third_party/fpdf/Fpdf.php');
+
 		require_once  APPPATH.'third_party/fpdf/Fpdf.php';
 	}
 
@@ -23,9 +24,9 @@ class CEntrega extends CI_Controller
 		$this->load->view('layout/footer');
 	}
 
-	public function entrega_actas_pdf($idPersona)
+	public function delvover_actas_pdf($idPersona)
 	{
-		$data = $this->Asignar_model->get_ativos_fijos_asignados_by_idpersona($idPersona);
+		$data = $this->Asignar_model->get_activos_fijos_devueltos_by_idpersona($idPersona);
 		$dataPersona = $this->Persona_model->get_persona($idPersona);
 		$firmas = $this->Persona_model->get_firmas($idPersona);
 		$nombreJefe = $firmas['jefeAF'];
@@ -39,11 +40,11 @@ class CEntrega extends CI_Controller
 		date_default_timezone_set("America/La_Paz");
 		$fecha = 'Cochabamba, '.date('d'). ' de '.$this->mesCastellano(date('m')).' de '.date('Y');
 		$parrafo = utf8_decode('En la ciudad de Cochabamba, a horas '.date('H:i:s',time()).' del día, '.date('d/m/Y').
-			' se procedió a la entrega de ITEMS al Sr(a) '.$datosPersona.' con Cedula de Identidad No. '.$ciPersona.' de acuerdo al siguiente detalle:');
-		$constancia = 'En Constancia de nuestra conformidad, firmamos al pie de la presente Acta de Entrega.';
+			' se procedió a la devolucón de ITEMS al Sr(a) '.$datosPersona.' con Cédula de Identidad No. '.$ciPersona.' de acuerdo al siguiente detalle:');
+		$constancia = utf8_decode('En Constancia de nuestra conformidad, firmamos al pie de la presente Acta de devolución.');
 		//------------------------------------------------
 		$firmaRecibe = 'Recibi Conforme';
-		$firmaJefeAF = 'Entregue Conforme';
+		//$firmaJefeAF = 'Entregue Conforme';
 		$firmaEncargadoAF = 'Entregue Conforme';
 		//-------------------------------------------------
 		$pie = utf8_decode('Nota: A partir de la fecha queda como depositario de todos los ítems  que se detallan en el formulario, cualquier pérdida, destrucción o mal trato que pueda sufrir será imputada directamente a su persona, mientras no demuestre lo contrario.');
@@ -58,7 +59,7 @@ class CEntrega extends CI_Controller
 		$this->pdf->SetFillColor(300,300,300);
 		$this->pdf->SetFont('Arial','B',12);
 		$this->pdf->Cell(30);
-		$this->pdf->Cell(120,10,utf8_decode('ACTA DE ENTREGA DE ACTIVOS FIJOS'),0,0,'C');
+		$this->pdf->Cell(120,10,utf8_decode('ACTA DE DEVOLUCIÓN DE ACTIVOS FIJOS'),0,0,'C');
 		$this->pdf->Ln(5);
 		$this->pdf->Cell(180,10,utf8_decode('U.A.F Nº   '.$numeroActa.'  /'. date('Y')),0,0,'C');
 		$this->pdf->Ln(10);
@@ -90,38 +91,33 @@ class CEntrega extends CI_Controller
 		$this->pdf->Ln(5);
 		$this->pdf->MultiCell(180,5,$constancia,0,'J');
 		$this->pdf->Ln(30);
-		$this->pdf->Cell(90,5,utf8_decode($firmaRecibe),0,0,'C',1);
 		$this->pdf->Cell(90,5,utf8_decode($firmaEncargadoAF),0,0,'C',1);
+		$this->pdf->Cell(90,5,utf8_decode($firmaRecibe),0,0,'C',1);
 		$this->pdf->Ln(5);
 		$this->pdf->Cell(90,5,utf8_decode($datosPersona),0,0,'C',1);
 		$this->pdf->Cell(90,5,utf8_decode($nombreEncargado),0,0,'C',1);
 		$this->pdf->Ln(5);
 		$this->pdf->Cell(90,5,utf8_decode($ciPersona),0,0,'C',1);
 		$this->pdf->Cell(90,5,utf8_decode($ciEncargado),0,0,'C',1);
-		$this->pdf->Ln(20);
-		$this->pdf->Cell(180,5,utf8_decode($firmaJefeAF),0,0,'C',1);
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(180,5,utf8_decode($nombreJefe),0,0,'C',1);
-		$this->pdf->Ln(5);
-		$this->pdf->Cell(180,5,utf8_decode($ciJefe),0,0,'C',1);
 		$this->pdf->Ln(10);
 		$this->pdf->Cell(180,5,utf8_decode($fecha),0,0,'R',1);
 		$this->pdf->Ln(10);
-		$this->pdf->SetFont('Arial','',8);
+		$this->pdf->SetFont('Arial','B',8);
 		$this->pdf->MultiCell(180,5,$pie,0,'J');
+		$this->pdf->SetFont('Arial','',8);
 		$this->pdf->MultiCell(180,5,$art146,0,'J');
 		$this->pdf->MultiCell(180,5,$art145,0,'J');
-		$url = APPPATH.'actas/'.'acta'.$numeroActa.'.pdf';
+		$nombre = 'acta-devolucion'.$numeroActa.'.pdf';
+		$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.$nombre.'.pdf';
 		$param = array(
-			'url' => $url,
-			'tipo' => 'E',
-			'fecha' => date('Y-m-d H:mm:ss'),
+			'idPersona' => $idPersona,
+			'url' => $nombre,
+			'tipo' => 'L',
+			'fecha' => date('Y-m-d'),
 		);
 		$this->pdf->Output('F', $url);
-
 		$this->Actas_model->add_acta($param);
-
-		redirect(base_url().'acta/CActas/','refresh');
+		redirect(base_url().'perfil/Cperfil/my_actas','refresh');
 	}
 
 	public function mesCastellano($mes)
@@ -166,5 +162,3 @@ class CEntrega extends CI_Controller
 		}
 	}
 }
-
-
