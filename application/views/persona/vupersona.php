@@ -105,6 +105,15 @@
 					<div class="form-group">
 						<label for="archivo" class="col-md-4 control-label"> Foto</label>
 						<div class="col-md-4">
+							<input type="hidden" name="destino" id="destino"
+								   value="<?php
+								   if ($this->input->post('destino')=='P') {
+									   echo 'P';
+								   }else{
+									   echo 'M';
+								   }
+								   ?>"
+							>
 							<input type="hidden" name="option" class="form-control" id="option"
 								   value="<?php echo 1; ?>"/>
 							<input type="hidden" name="foto" class="form-control" id="foto"

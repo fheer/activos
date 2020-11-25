@@ -53,7 +53,7 @@
 						<div class="col-md-3">
 							<input type="text" class="form-control input-sm" name="codigo" id="codigo"
 					 	   value="<?php echo ($this->input->post('codigo') ? $this->input->post('codigo') : $update['codigo']); ?>"
-							/>
+							readonly/>
 							<span class="text-danger"><?php echo form_error('codigo'); ?></span>
 						</div>
 					</div>

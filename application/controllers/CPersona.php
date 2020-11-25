@@ -208,18 +208,18 @@ class CPersona extends CI_Controller{
 			if($this->form_validation->run())
 			{
 				$params = $this->parametros();
-
 				$this->Persona_model->update_persona($idPersona,$params);
-
-				redirect(base_url().CPersona);
+				if ($this->input->post('destino')=='P') {
+					redirect(base_url().'perfil/CPerfil');
+				}else{
+					redirect(base_url().'CPersona');
+				}
 			}
 			else
 			{
 				$this->updatePerson($idPersona);
 			}
 		}
-		else
-			show_error('The persona you are trying to edit does not exist.');
 	}
 
 	/*

@@ -46,7 +46,7 @@
 									</div>
 									<div class="form-group col-md-10">
 										<label hidden for="claveHash" class="col-md-6 control-label">clave Hash</label>
-										<input  type="text" class="form-control" id="claveHash" name="claveHash">
+										<input  type="hidden" class="form-control" id="claveHash" name="claveHash">
 									</div>
 									<br>
 									<div class="form-group col-md-4">

@@ -35,6 +35,7 @@
 							<input type="hidden" id="idPersona" name="idPersona"
 								   value="<?php echo $this->session->userdata('s_idPersona'); ?>">
 							<select name="idTipoActivoFijo" id="idTipoActivoFijo" class="form-control">
+								<option>Seleccione Tipo</option>
 								<?php
 								foreach ($tipoactivofijo as $row) {
 									echo '<option value="' . $row['idTipoActivoFijo'] . '" >' . $row['tipo'] . '</option>';
@@ -48,7 +49,7 @@
 							Código</label>
 						<div class="col-md-3">
 							<input type="text" class="form-control input-sm" name="codigo" id="codigo"
-								   value="<?php echo $this->input->post('codigo'); ?>"/>
+								   value="<?php echo $this->input->post('codigo'); ?>" readonly/>
 							<span class="text-danger"><?php echo form_error('codigo'); ?></span>
 						</div>
 					</div>
@@ -133,4 +134,24 @@
 </div>
 </div>
 
-
+<script>
+	var baseurl = '<?php echo base_url();?>';
+	var cod = '';
+	document.getElementById('idTipoActivoFijo').onchange = function() {
+		/* Referencia al option seleccionado */
+		var mOption = this.options[this.selectedIndex];
+		/* Referencia a los atributos data de la opción seleccionada */
+		var mData = mOption.dataset;
+		/* Referencia al input */
+		//var elUser = document.getElementById('user');
+		cod = document.getElementById("codigo");
+		$.ajax({
+			type: "POST",
+			url: baseurl+"activos/Cactivofijo/generate_code_af/",
+			success: function(data){
+			    //alert(data);
+				cod.value = data;
+			}
+		});
+	};
+</script>

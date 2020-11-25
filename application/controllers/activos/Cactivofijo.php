@@ -345,9 +345,9 @@ class Cactivofijo extends CI_Controller{
 	{
 		$porciones = explode(" ", $srt);
 		$nuevaCadena= "";
-		foreach($porciones as $posicion=>$jugador)
+		foreach($porciones as $posicion=>$cadena)
 		{
-			$nuevaCadena .=" ". $jugador;
+			$nuevaCadena .=$cadena. " ";
 		}
 		return $nuevaCadena;
 	}
@@ -371,4 +371,14 @@ class Cactivofijo extends CI_Controller{
 			return FALSE;
 		}
 	}
+
+	/**
+	 * Generate codiogo activo fijo
+	 */
+	public function generate_code_af()
+	{
+		$contarActivos = $this->Activofijo_model->activo_fijo_count() + 1;
+		echo 'UEE-C-AF-'.$contarActivos;
+	}
+
 }
