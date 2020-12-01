@@ -68,6 +68,8 @@ class Asignar_model extends CI_Model
 		$this->db->join('asignacion A','A.idActivofijo=AF.idActivofijo','inner');
 		$this->db->where('A.idPersona=', $idPersona);
 		$this->db->where('A.idNewOwner=', $idPersona);
+		$this->db->order_by('AF.idTipoActivoFijo', 'asc');
+
 		return $this->db->get()->result_array();
 	}
 

@@ -15,7 +15,11 @@ class Mlogin extends CI_Model
 		$this->db->WHERE('user',$user);
 		$resultado = $this->db->get();
 		$r = $resultado->row();
+		if ($resultado->num_rows() == 1) {
 		$clave = $r->clave;
+		}else {
+			return 0;
+		}
 		if (password_verify($psw, $clave))
 		{
 			echo 'verifico la clave'.'<br>';

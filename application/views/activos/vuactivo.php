@@ -71,7 +71,7 @@
 						<label for="nombre" class="col-md-4 control-label"><span class="text-danger">*</span> Nombre
 							Activo fijo</label>
 						<div class="col-md-3">
-							<input type="text" name="nombre" id="nombre" class="form-control"
+							<input type="text" name="nombreActivo" id="nombreActivo" class="form-control"
 								   value="<?php echo ($this->input->post('nombre') ? $this->input->post('nombre') : $update['nombre']); ?>"
 							/>
 							<span class="text-danger"><?php echo form_error('nombre'); ?></span>
@@ -103,11 +103,20 @@
 					</div>
 					<div class="form-group">
 						<label for="valorInicial" class="col-md-4 control-label"><span class="text-danger">*</span>
-							Valor inical</label>
+							Valor inicial</label>
 						<div class="col-md-4">
 							<input type="text" name="valorInicial" id="valorInicial" class="form-control"
 								   value="<?php echo ($this->input->post('valorInicial') ? $this->input->post('valorInicial') : $update['valorInicial']); ?>"
 							/>
+							<span class="text-danger"><?php echo form_error('valorInicial'); ?></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="valorInicial" class="col-md-4 control-label"><span class="text-danger">*</span>
+							Fecha Ingreso</label>
+						<div class="col-md-4">
+							<input type="date" name="fechaCompra" id="fechaCompra"
+								   value="<?php echo ($this->input->post('fechaCompra') ? $this->input->post('fechaCompra') : $update['fechaCompra']); ?>" class="form-control"/>
 							<span class="text-danger"><?php echo form_error('valorInicial'); ?></span>
 						</div>
 					</div>

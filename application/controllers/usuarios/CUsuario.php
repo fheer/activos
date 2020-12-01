@@ -77,29 +77,7 @@ class CUsuario extends CI_Controller{
 				$checbox5 = $this->input->post('reportes');
 				$checbox6 = $this->input->post('opciones');
 				$permisos = '';
-				if (isset($checbox0)) {
-					$permisos .= 'Perfil' . '#';
-				}
-				if (isset($checbox1)) {
-					$permisos .= 'Personal' . '#';
-				}
-				if (isset($checbox2)) {
-					$permisos .= 'Activos' . '#';
-				}
-				if (isset($checbox3)) {
-					$permisos .= 'Movimientos' . '#';
-				}
-				if (isset($checbox4)) {
-					$permisos .= 'Usuarios' . '#';
-				}
-				if (isset($checbox5)) {
-					$permisos .= 'Reportes' . '#';
-				}
-				if (isset($checbox6)) {
-					$permisos .= 'Opciones' . '#';
-				}
-				echo $permisos;
-				/*
+
 				if (isset($checbox0)) {
 					$permisos .= md5('Perfil').'#';
 				}
@@ -154,8 +132,7 @@ class CUsuario extends CI_Controller{
 				$this->load->view('usuarios/vusuario',$data);
 				$this->load->view('layout/footer');
 			}
-			*/
-			}
+
 	}
 
 	/*

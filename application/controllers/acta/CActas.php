@@ -18,6 +18,7 @@ class CActas extends CI_Controller
 	function get_all_actas()
 	{
 
+
 	}
 
 }

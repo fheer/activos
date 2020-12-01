@@ -8,6 +8,16 @@ class Usuario_model extends CI_Model
 	}
 
 	/*
+     * activo fijo count
+     */
+	function usuario_count()
+	{
+		$this->db->where('eliminado=1');
+		$this->db->from('usuario');
+		return $this->db->count_all_results();
+	}
+
+	/*
      * Get all users and persona
      */
 	function get_name_all_usuario_personal()

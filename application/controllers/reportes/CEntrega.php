@@ -111,9 +111,12 @@ class CEntrega extends CI_Controller
 		$this->pdf->MultiCell(180,5,$pie,0,'J');
 		$this->pdf->MultiCell(180,5,$art146,0,'J');
 		$this->pdf->MultiCell(180,5,$art145,0,'J');
-		$url = APPPATH.'actas/'.'acta'.$numeroActa.'.pdf';
+		$nombre = 'acta'.$numeroActa.'.pdf';
+		$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.$nombre.'.pdf';
+		//$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.'acta'.$numeroActa.'.pdf';
+		//$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.$nombre.'.pdf';
 		$param = array(
-			'url' => $url,
+			'url' => $nombre,
 			'tipo' => 'E',
 			'fecha' => date('Y-m-d H:mm:ss'),
 		);
@@ -122,6 +125,8 @@ class CEntrega extends CI_Controller
 		$this->Actas_model->add_acta($param);
 
 		redirect(base_url().'acta/CActas/','refresh');
+
+		$nombre = 'acta-devolucion'.$numeroActa.'.pdf';
 	}
 
 	public function mesCastellano($mes)

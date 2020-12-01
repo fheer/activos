@@ -64,7 +64,7 @@ class CAsignar extends CI_Controller
 			}
 			$idPersonaAsignada = $this->input->post('idPersona');
 			//redirigir a la lista de acta
-			//redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
+			redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
 		}else {
 			$data['persona'] = $this->Persona_model->get_all_persona();
 			$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();
