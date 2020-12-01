@@ -33,9 +33,5 @@ class CReporteBaja extends CI_Controller
 			$indice++;
 		}
 		$pdf->Output("listabajas.pdf","I");
-
-
-
-
 	}
 }

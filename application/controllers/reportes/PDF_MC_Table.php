@@ -103,5 +103,28 @@ class PDF_MC_Table extends FPDF
 		}
 		return $nl;
 	}
+
+	function Header()
+	{
+		$this->Image(base_url().'fotos/logo.png',10,8,18);
+		$this->SetFont('Arial','B',8);
+		// Move to the right
+		$this->Cell(80);
+		// Title
+		$this->Cell(0,10,utf8_decode('UNIDAD EDUCATIVA DEL EJÉRCITO'),0,0,'R');
+		$this->Ln(5);
+		$this->Cell(0,10,utf8_decode('COCHABAMBA - BOLIVIA         '),0,0,'R');
+		$this->Ln(5);
+		$this->Cell(0,10,utf8_decode(date('Y').'                           '),0,0,'R');
+		// Line break
+		$this->Ln(10);
+	}
+
+	function Footer()
+	{
+		$this->SetY(-15);
+		$this->SetFont('Arial','I',8);
+		$this->Cell(180,10,utf8_decode('Página ') . $this->PageNo(),0,0,'C');
+	}
 }
 ?>
