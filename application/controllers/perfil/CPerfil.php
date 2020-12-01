@@ -94,7 +94,9 @@ class CPerfil extends CI_Controller {
 	}
 
 	function my_actas(){
-		$data['actas'] = $this->Actas_model->get_all_actas();
+		$data['actas'] = $this->Actas_model->get_actas_($this->session->userdata('s_idPersona'));
+		//echo $this->session->userdata('s_idUsuario');
+		//print_r($data);
 		$this->load->view('layout/header');
 		$this->load->view('perfil/vactas',$data);
 		$this->load->view('layout/footer');
@@ -140,6 +142,18 @@ class CPerfil extends CI_Controller {
 
 	function persona_count(){
 		return $this->Persona_model->persona_count();;
+	}
+
+	/*
+	 * Generate hash passsword
+	 */
+	public function hash_generate_password($password)
+	{
+		// Hash
+		$password = password_hash($password, PASSWORD_BCRYPT,[5]);
+		// Hash
+		$hash = substr($password, 0, 60);
+		return $hash;
 	}
 }
 

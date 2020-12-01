@@ -26,7 +26,7 @@ class Activofijo_model extends CI_Model
 	}
 
 	/*
-     * Get activofijo by idActivofijo
+     * Get activofijo by numero de serie
      */
 	function get_activofijo_codigo_numeroSerie($codigo)
 	{
@@ -39,7 +39,7 @@ class Activofijo_model extends CI_Model
 	function get_all_activofijo()
 	{
 		$this->db->where('eliminado=',1);
-		$this->db->order_by('idActivofijo', 'desc');
+		$this->db->order_by('idTipoActivoFijo', 'asc');
 		return $this->db->get('activofijo')->result_array();
 	}
 
@@ -50,6 +50,16 @@ class Activofijo_model extends CI_Model
 	{
 		$this->db->order_by('tipo', 'asc');
 		return $this->db->get('tipoactivofijo')->result_array();
+	}
+
+	/**
+	 * Get Tipo activo fijo by id
+	 * @return mixed
+	 */
+	function get_tipoactivofijo($idTipoActivoFijo)
+	{
+		$this->db->where('idTipoActivoFijo', $idTipoActivoFijo);
+		return $this->db->get('tipoactivofijo')->row_array();
 	}
 
 	/*
@@ -82,13 +92,59 @@ class Activofijo_model extends CI_Model
 		if ($this->db->trans_status() === FALSE){
 			//Hubo errores en la consulta, entonces se cancela la transacción.
 			$this->db->trans_rollback();
+			return 0;
+		}else{
+			//Todas las consultas se hicieron correctamente.
+			$this->db->trans_commit();
+			return $idActivofijo;
+		}
+
+	}
+
+	/*
+     * function to add new baja
+     */
+	function add_baja($idActivofijo, $params)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('baja',$params);
+		//$idActivofijo = $this->db->insert_id();
+		date_default_timezone_set("America/La_Paz");
+		$paramsActivo = array(
+			'eliminado' => 0,
+		);
+		$this->db->where('idActivofijo',$idActivofijo);
+		$this->db->update('activofijo',$paramsActivo);
+
+		if ($this->db->trans_status() === FALSE){
+			//Hubo errores en la consulta, entonces se cancela la transacción.
+			$this->db->trans_rollback();
 			return false;
 		}else{
 			//Todas las consultas se hicieron correctamente.
 			$this->db->trans_commit();
 			return true;
 		}
+	}
 
+	function list_bajas()
+	{
+		$this->db->select('AF.codigo, AF.nombre, MB.motivo, B.fecha');
+		$this->db->from('baja B');
+		$this->db->join('activofijo AF','AF.idActivofijo=B.idActivofijo','inner');
+		$this->db->join('motivobaja MB','MB.idMotivoBaja=B.idMotivoBaja','inner');
+		return $this->db->get()->result_array();
+	}
+
+	function get_bajas_date($de, $hasta)
+	{
+
+		$this->db->select('AF.codigo, AF.nombre, MB.motivo, B.fecha');
+		$this->db->from('baja B');
+		$this->db->join('activofijo AF','AF.idActivofijo=B.idActivofijo','inner');
+		$this->db->join('motivobaja MB','MB.idMotivoBaja=B.idMotivoBaja','inner');
+		$this->db->where("B.fecha BETWEEN '".$de."' AND '" .$hasta."'");
+		return $this->db->get()->result_array();
 	}
 
 	/*
@@ -228,6 +284,15 @@ class Activofijo_model extends CI_Model
 	function activo_fijo_count()
 	{
 		$this->db->where('eliminado=1');
+		$this->db->from('activofijo');
+		return $this->db->count_all_results();
+	}
+
+	/*
+     * activo fijo count
+     */
+	function activo_fijo_count_generar()
+	{
 		$this->db->from('activofijo');
 		return $this->db->count_all_results();
 	}

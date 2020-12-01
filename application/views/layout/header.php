@@ -26,7 +26,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 	<!-- Ionicons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -43,11 +43,13 @@
 				</div>
 			</div>
 			<?php
-			$ci = &get_instance();
-			$ci->load->model('Persona_model');
+			if (!empty($this->session->userdata('s_idPersona'))){
+				$ci = &get_instance();
+				$ci->load->model('Persona_model');
 
-			$persona= $ci->Persona_model->get_persona($this->session->userdata('s_idPersona'));
-			$nombreCompleto = $persona['apellidoPaterno']. ' '.$persona['apellidoMaterno']. ' '.$persona['nombres']. ' ';
+				$persona= $ci->Persona_model->get_persona($this->session->userdata('s_idPersona'));
+				$nombreCompleto = $persona['apellidoPaterno']. ' '.$persona['apellidoMaterno']. ' '.$persona['nombres']. ' ';
+			}
 			?>
 			<div class="col-md-4">
 				<div class="navbar navbar-inverse" role="banner">
@@ -55,7 +57,7 @@
 						<ul class="nav navbar-nav">
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<span ><?php echo $nombreCompleto;?></span>
+									<span style="color:#123f8d"><?php if (!empty($nombreCompleto))echo $nombreCompleto;?></span>
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu animated fadeInUp">
@@ -77,46 +79,48 @@
 		<div class="col-md-2">
 			<div class="sidebar content-box" style="display: block;">
 				<?php
-				$ciU = &get_instance();
-				$ciU->load->model('Usuario_model');
-				$ciU->load->model('Persona_model');
+				if (!empty($this->session->userdata('s_idUsuario'))) {
+					$ciU = &get_instance();
+					$ciU->load->model('Usuario_model');
+					$ciU->load->model('Persona_model');
 
-				$usuario = $ciU->Usuario_model->get_usuario($this->session->userdata('s_idUsuario'));
-				$permisos = explode("#",$usuario['permiso']);
-				$espacios = count($permisos);
-				$personalMd5 = md5("Personal");
-				$activosFijosMd5 = md5("Activos");
-				$movimientosMd5 = md5("Movimientos");
-				$usuariosMd5 = md5("Usuarios");
-				$reportesMd5 = md5("Reportes");
-				$opcionesMd5 = md5("Opciones");
-				$perfilMd5 = md5("Perfil");
+					$usuario = $ciU->Usuario_model->get_usuario($this->session->userdata('s_idUsuario'));
+					$permisos = explode("#",$usuario['permiso']);
+					$espacios = count($permisos);
+					$personalMd5 = md5("Personal");
+					$activosFijosMd5 = md5("Activos");
+					$movimientosMd5 = md5("Movimientos");
+					$usuariosMd5 = md5("Usuarios");
+					$reportesMd5 = md5("Reportes");
+					$opcionesMd5 = md5("Opciones");
+					$perfilMd5 = md5("Perfil");
 
-				foreach ($permisos as $permisoMd5)
-				{
-					switch ($permisoMd5)
+					foreach ($permisos as $permisoMd5)
 					{
-						case $perfilMd5:
-							$perfil = "Perfil";
-							break;
-						case $personalMd5:
-							$personal = "Personal";
-							break;
-						case $activosFijosMd5:
-							$activos = "Activos";
-							break;
-						case $movimientosMd5:
-							$movimientos = "Movimientos";
-							break;
-						case $usuariosMd5:
-							$usuarios = "Usuarios";
-							break;
-						case $reportesMd5:
-							$reportes = "Reportes";
-							break;
-						case $opcionesMd5:
-							$opciones = "Opciones";
-							break;
+						switch ($permisoMd5)
+						{
+							case $perfilMd5:
+								$perfil = "Perfil";
+								break;
+							case $personalMd5:
+								$personal = "Personal";
+								break;
+							case $activosFijosMd5:
+								$activos = "Activos";
+								break;
+							case $movimientosMd5:
+								$movimientos = "Movimientos";
+								break;
+							case $usuariosMd5:
+								$usuarios = "Usuarios";
+								break;
+							case $reportesMd5:
+								$reportes = "Reportes";
+								break;
+							case $opcionesMd5:
+								$opciones = "Opciones";
+								break;
+						}
 					}
 				}
 				?>
@@ -170,9 +174,9 @@
 						<!-- Sub menu -->
 						<ul>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Alta</a></li>
-							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Baja</a></li>
-							<li><a href="<?php echo base_url();?>activos/Cactivofijo/insertActivo">Transferencia</a></li>
-							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/baja_activo">Baja</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista Activos Fijos</a></li>
+							<li><a href="<?php echo base_url();?>activos/Cactivofijo/list_bajas">Lista Bajas</a></li>
 						</ul>
 					</li>
 					<?php
@@ -189,9 +193,7 @@
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="<?php echo base_url();?>movimientos/CMovimiento/listaLugares/1">Ver Lugares</a></li>
 							<li><a href="<?php echo base_url();?>asignar/CAsignar/asignar/">Asignar</a></li>
-							<li><a href="<?php echo base_url();?>activos/Cactivofijo/ver/Ele-123">Ver</a></li>
 						</ul>
 					</li>
 					<?php
@@ -261,35 +263,38 @@
 					}
 					?>
 					<?php
-					switch ($espacios)
+					if (!empty($espacios))
 					{
-						case 1:
-							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-							break;
-						case 2:
-							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-							break;
-						case 3:
-							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-							break;
-						case 4:
-							echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>";
-							break;
-						case 5:
-							echo "<br><br><br><br><br><br><br><br><br><br>";
-							break;
-						case 6:
-							echo "<br><br><br><br><br><br><br>";
-							break;
-						case 7:
-							echo "<br><br><br><br><br>";
-							break;
-						case 8:
-							echo "<br><br>";
-							break;
+						switch ($espacios)
+						{
+							case 1:
+								echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+								break;
+							case 2:
+								echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+								break;
+							case 3:
+								echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+								break;
+							case 4:
+								echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>";
+								break;
+							case 5:
+								echo "<br><br><br><br><br><br><br><br><br><br>";
+								break;
+							case 6:
+								echo "<br><br><br><br><br><br><br>";
+								break;
+							case 7:
+								echo "<br><br><br><br><br>";
+								break;
+							case 8:
+								echo "<br><br>";
+								break;
+						}
 					}
-					?>
 
+					?>
 				</ul>
 			</div>
 		</div>

@@ -29,7 +29,7 @@ class CPersona extends CI_Controller{
 	{
 		$data['departamento'] = $this->Departamento_model->get_all_departamento();
 		$data['cargo'] = $this->Cargo_model->get_all_cargo();
-		$data['expedido'] = $this->Persona_model->get_expedido();;
+		$data['expedido'] = $this->Persona_model->get_expedido();
 		$this->load->view('layout/header');
 		$this->load->view('persona/vpersona',$data);
 		$this->load->view('layout/footer');
@@ -46,7 +46,7 @@ class CPersona extends CI_Controller{
 		$data['cargo'] = $this->Cargo_model->get_all_cargo();
 		$data['dpto'] = $this->Departamento_model->get_departamento($persona['idDepartamento']);
 		$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
-		$data['expedido'] = $this->Persona_model->get_expedido();;
+		$data['expedido'] = $this->Persona_model->get_expedido();
 		$this->load->view('layout/header');
 		$this->load->view('persona/vupersona',$data);
 		$this->load->view('layout/footer');
@@ -73,11 +73,11 @@ class CPersona extends CI_Controller{
 	private function formValidation() {
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('ci','Ci','required|callback_alpha_dash');
-		$this->form_validation->set_rules('nombre','Nombre','callback_alpha_space');
-		$this->form_validation->set_rules('apellidoPaterno','ApellidoPaterno','required|callback_alpha');
-		$this->form_validation->set_rules('apellidoMaterno','ApellidoMaterno','required|callback_alpha');
-		$this->form_validation->set_rules('direccion','Direccion','callback_address');
+		$this->form_validation->set_rules('ci','Ci','required|callback_alpha_dash|max_length[20]');
+		$this->form_validation->set_rules('nombre','Nombre','callback_alpha_space|max_length[70]');
+		$this->form_validation->set_rules('apellidoPaterno','ApellidoPaterno','required|callback_alpha|max_length[70]');
+		$this->form_validation->set_rules('apellidoMaterno','ApellidoMaterno','required|callback_alpha|max_length[70]');
+		$this->form_validation->set_rules('direccion','Direccion','callback_address|max_length[70]');
 		$this->form_validation->set_rules('telefono','Telefono','required|integer');
 		$this->form_validation->set_rules('email','Email','required|valid_email');
 		$this->form_validation->set_rules('idCargo','Cargo','required');
@@ -136,17 +136,33 @@ class CPersona extends CI_Controller{
      */
 	function add()
 	{
-		$this->formValidation();
-		$data = array();
-		if($this->form_validation->run())
-		{
-			$params = $this->parametros();
-			$persona_id = $this->Persona_model->add_persona($params);
-			redirect(base_url().CPersona);
+		if ($this->Persona_model->get_ci($this->input->post('ci')) == 0) {
+			$this->formValidation();
+			$data = array();
+			if($this->form_validation->run())
+			{
+				$params = $this->parametros();
+				$persona_id = $this->Persona_model->add_persona($params);
+				redirect(base_url().CPersona);
+			}
+			else
+			{
+				$data['departamento'] = $this->Departamento_model->get_all_departamento();
+				$data['cargo'] = $this->Cargo_model->get_all_cargo();
+				$data['expedido'] = $this->Persona_model->get_expedido();
+				$data['expedido'] = $this->Persona_model->get_expedido();
+				$data['mensaje'] = '';
+				$this->load->view('layout/header');
+				$this->load->view('persona/vpersona',$data);
+				$this->load->view('layout/footer');
+			}
 		}
-		else
-		{
+		else{
+			$data['departamento'] = $this->Departamento_model->get_all_departamento();
 			$data['cargo'] = $this->Cargo_model->get_all_cargo();
+			$data['expedido'] = $this->Persona_model->get_expedido();
+			$data['expedido'] = $this->Persona_model->get_expedido();
+			$data['mensaje'] = 'El Ci: '.$this->input->post('ci').'. Se encuentra registrado';
 			$this->load->view('layout/header');
 			$this->load->view('persona/vpersona',$data);
 			$this->load->view('layout/footer');
@@ -170,7 +186,12 @@ class CPersona extends CI_Controller{
 				'cargo' => form_error('cargo')
 
 			);
-			echo json_encode($data);
+			$data['departamento'] = $this->Departamento_model->get_all_departamento();
+			$data['cargo'] = $this->Cargo_model->get_all_cargo();
+			$data['expedido'] = $this->Persona_model->get_expedido();
+			$this->load->view('layout/header');
+			$this->load->view('persona/vpersona',$data);
+			$this->load->view('layout/footer');
 		} else {
 			$params = array(
 				'cargo' => trim($this->input->post('cargo')),
@@ -198,9 +219,7 @@ class CPersona extends CI_Controller{
 		$idPersona = $this->input->post('idPersona');
 		// check if the persona exists before trying to edit it
 		$data['persona'] = $this->Persona_model->get_persona($idPersona);
-
-		if(isset($data['persona']['idPersona']))
-		{
+		//if ($this->Persona_model->get_ci($this->input->post('ci')) == 0) {
 			$this->load->library('form_validation');
 
 			$this->formValidation();
@@ -217,9 +236,33 @@ class CPersona extends CI_Controller{
 			}
 			else
 			{
-				$this->updatePerson($idPersona);
+				$persona = $this->Persona_model->get_persona($idPersona);
+				$data['persona'] = $this->Persona_model->get_persona($idPersona);
+				$data['departamento'] = $this->Departamento_model->get_all_departamento();
+				$data['cargo'] = $this->Cargo_model->get_all_cargo();
+				$data['dpto'] = $this->Departamento_model->get_departamento($persona['idDepartamento']);
+				$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
+				$data['expedido'] = $this->Persona_model->get_expedido();
+				$this->load->view('layout/header');
+				$this->load->view('persona/vupersona',$data);
+				$this->load->view('layout/footer');
 			}
-		}
+		/*}else{
+			$persona = $this->Persona_model->get_persona($idPersona);
+			$data['persona'] = $this->Persona_model->get_persona($idPersona);
+			$data['departamento'] = $this->Departamento_model->get_all_departamento();
+			$data['cargo'] = $this->Cargo_model->get_all_cargo();
+			$data['dpto'] = $this->Departamento_model->get_departamento($persona['idDepartamento']);
+			$data['cargoNombre'] = $this->Cargo_model->get_cargo($persona['idCargo']);
+			$data['expedido'] = $this->Persona_model->get_expedido();
+			$data['mensaje'] = 'El Ci: '.$this->input->post('ci').'. Se encuentra registrado';
+			$this->load->view('layout/header');
+			$this->load->view('persona/vupersona',$data);
+			$this->load->view('layout/footer');
+		}*/
+
+
+
 	}
 
 	/*

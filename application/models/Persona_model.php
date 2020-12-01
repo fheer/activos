@@ -29,6 +29,22 @@ class Persona_model extends CI_Model
 		return $this->db->get_where('persona',array('idPersona'=>$idPersona))->row_array();
 	}
 
+	function get_ci($ci)
+	{
+
+		$this->db->select('idPersona,ci');
+		$this->db->FROM('persona');
+		$this->db->WHERE('ci',$ci);
+
+		$resultado = $this->db->get();
+
+		if ($resultado->num_rows() == 1) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
 	/*
      * Get persona by idPersona
      */

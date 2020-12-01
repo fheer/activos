@@ -60,12 +60,19 @@
 											 <i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar
 											 </a>
 										 </li>
+										 <li><a href="<?php echo base_url().'activos/Cactivofijo/get_data_depreciacion/'.$row['idActivofijo']; ?>"
+												title="Imprimir formato">
+												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
+												 Ver Depreciación
+											 </a>
+										 </li>
                       				     <li><a href="<?php echo base_url().'activos/Cactivofijo/Creport'.$row['idActivofijo']; ?>"
 												title="Imprimir formato">
 												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
 												 Imprimir
 											 </a>
 										 </li>
+
 									 </ul>
 								  </div>
 							</span>

@@ -10,8 +10,21 @@ class Cactivofijo extends CI_Controller{
 		$this->load->model('Obtenido_model');
 		$this->load->model('Estado_model');
 		$this->load->model('Departamento_model');
+		$this->load->model('Motivobaja_model');
+		$this->load->model('Transacciones_model');
 		$this->load->library('qrcode/Ciqrcode');
+	}
 
+	public function get_data_depreciacion($idActivofijo)
+	{
+		$data['depreciacion'] = $this->Transacciones_model->get_data_depreciacion($idActivofijo);
+		$data['activofijo'] = $this->Activofijo_model->get_activofijo($idActivofijo);
+		$data_tipo = $this->Activofijo_model->get_activofijo($idActivofijo);
+		$idTipoActivoFijo = $data_tipo['idTipoActivoFijo'];
+		$data['vidautil'] = $this->Activofijo_model->get_tipoactivofijo($idTipoActivoFijo);
+		$this->load->view('layout/header');
+		$this->load->view('activos/vlistadepreciacion',$data);
+		$this->load->view('layout/footer');
 	}
 
 	/*
@@ -43,6 +56,7 @@ class Cactivofijo extends CI_Controller{
 		$this->load->view('activos/vmostrar',$data);
 		//$this->load->view('layout/footer');
 	}
+
 	/*
 	 * Go to Insert Activo fijo
 	 */
@@ -57,11 +71,40 @@ class Cactivofijo extends CI_Controller{
 		$this->load->view('layout/footer');
 	}
 
+	function baja_activo()
+	{
+		$data['activo'] = $this->Activofijo_model->get_all_activofijo();
+		$data['motivo'] = $this->Motivobaja_model->get_all_motivobaja();
+		$data['mensaje'] = '';
+
+		$this->load->view('layout/header');
+		$this->load->view('activos/vbaja',$data);
+		$this->load->view('layout/footer');
+	}
+
+	/*
+	 *
+	 */
+	function listadepreciacion($vidaUtil, $valorInicial)
+	{
+		//$idActivofijo = $this->input->post('idActivofijo');
+		$data['activo'] = $this->Activofijo_model->get_all_activofijo();
+		//$data['motivo'] = $this->Motivobaja_model->get_all_motivobaja();
+
+		$data['mensaje'] = '';
+
+		$this->load->view('layout/header');
+		$this->load->view('activos/vlistadepreciacion',$data);
+		$this->load->view('layout/footer');
+
+	}
+
 	/*
      * Adding a new Activo fijo
      */
 	function add()
 	{
+
 		if ($this->Activofijo_model->get_codigo($this->input->post('codigo')) == 0)
 		{
 			$this->formValidation();
@@ -70,12 +113,36 @@ class Cactivofijo extends CI_Controller{
 			{
 				$params = $this->parametros();
 				$response = $this->Activofijo_model->add_activofijo($params,$this->input->post('idPersona'));
-				if($response){
+				if($response>0){
+
+					$idActivofijo = $response;
+					$data = $this->Activofijo_model->get_activofijo($idActivofijo);
+
+					$idTipoActivoFijo = $data['idTipoActivoFijo'];
+					$data_activo = $this->Activofijo_model->get_tipoactivofijo($idTipoActivoFijo);
+
+					$vidaUtil = $data_activo['vidautil'];
+					$valorInicial = $this->input->post('valorInicial');
+
+					$valorDepreciacion = $this->calcular_cuota_depreciacion($vidaUtil, $valorInicial);
+
+					for ($i=1;$i<=$vidaUtil;$i++)
+					{
+						$valorAcumuladoDepreciacion = $valorDepreciacion * $i;
+						$params = array(
+							'valorInicial' => $valorInicial,
+							'valorDepreciacion' => $valorDepreciacion,
+							'valorAcumuladoDepreciacion' => $valorAcumuladoDepreciacion,
+							'idActivofijo' => $idActivofijo,
+						);
+						$this->Transacciones_model->add_transacciones($params);
+					}
+					echo $idActivofijo.'<br>';
 					redirect('activos/Cactivofijo/index');
 				}else{
-					echo 'El cliente NO fue registrado, porque hubo errores';
 					$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 					$data['estado'] = $this->Activofijo_model->get_all_estado();
+					$data['obtenido'] = $this->Obtenido_model->get_all_obtenido();
 					$data['mensaje'] = 'El Activo fijo NO fue registrado, porque hubo errores';
 					$this->load->view('layout/header');
 					$this->load->view('activos/vactivo',$data);
@@ -87,6 +154,7 @@ class Cactivofijo extends CI_Controller{
 				$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 				$data['estado'] = $this->Activofijo_model->get_all_estado();
 				$data['departamento'] = $this->Departamento_model->get_all_departamento();
+				$data['obtenido'] = $this->Obtenido_model->get_all_obtenido();
 				$data['mensaje'] = '';
 				$this->load->view('layout/header');
 				$this->load->view('activos/vactivo',$data);
@@ -97,6 +165,7 @@ class Cactivofijo extends CI_Controller{
 		{
 			$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
 			$data['estado'] = $this->Activofijo_model->get_all_estado();
+			$data['obtenido'] = $this->Obtenido_model->get_all_obtenido();
 			$data['mensaje'] = 'El codigo: '.$this->input->post('codigo').'. Se encuentra registrado';
 			$this->load->view('layout/header');
 			$this->load->view('activos/vactivo',$data);
@@ -104,29 +173,67 @@ class Cactivofijo extends CI_Controller{
 		}
 	}
 
+	/**
+	 * @param $vidaUtil
+	 * @param $valorInicial
+	 * @return float|int
+	 */
+	function calcular_cuota_depreciacion($vidaUtil, $valorInicial) {
+			return $valorInicial / $vidaUtil ;
+	}
+
+	function get_format($df) {
+
+		$str = '';
+		$str .= ($df->invert == 1) ? ' - ' : '';
+		if ($df->y > 0) {
+			$str .= $df->y;
+		} else{
+			$str = 0;
+		}
+		return $str;
+	}
 	/*
      * Editing a activofijo
      */
 	function edit()
 	{
-				$this->formValidation();
+		$idActivofijo = $this->input->post('idActivofijo');
+		if ($this->Activofijo_model->get_codigo($this->input->post('codigo')) > 0) {
+			$this->formValidation();
 
-				if($this->form_validation->run())
-				{
-					$params = $this->parametros();
-					echo 'llego aqui';
-					$this->Activofijo_model->update_activofijo($this->input->post('idActivofijo'), $params);
-					redirect('activos/Cactivofijo/','refresh');
-				}
-				else
-				{
-					$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
-					$data['estado'] = $this->Activofijo_model->get_all_estado();
-					$data['mensaje'] = '';
-					$this->load->view('layout/header');
-					$this->load->view('activos/vuactivo',$data);
-					$this->load->view('layout/footer');
-				}
+			if($this->form_validation->run())
+			{
+				$params = $this->parametros();
+				echo 'llego aqui';
+				$this->Activofijo_model->update_activofijo($idActivofijo, $params);
+				redirect('activos/Cactivofijo/','refresh');
+			}
+			else
+			{
+				$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
+				$data['estado'] = $this->Activofijo_model->get_all_estado();
+				$data['update'] = $this->Activofijo_model->get_activofijo($idActivofijo);
+				$data['obtenido'] = $this->Obtenido_model->get_all_obtenido();
+				$data['mensaje'] = '';
+				$this->load->view('layout/header');
+				$this->load->view('activos/vuactivo',$data);
+				$this->load->view('layout/footer');
+			}
+		}
+		else
+		{
+			$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
+			$data['estado'] = $this->Activofijo_model->get_all_estado();
+			$data['update'] = $this->Activofijo_model->get_activofijo($idActivofijo);
+			$data['obtenido'] = $this->Obtenido_model->get_all_obtenido();
+			$data['mensaje'] = 'El codigo: '.$this->input->post('codigo').'. NO Se encuentra registrado';
+			$this->load->view('layout/header');
+			$this->load->view('activos/vuactivo',$data);
+			$this->load->view('layout/footer');
+
+		}
+
 	}
 
 	/*
@@ -144,6 +251,53 @@ class Cactivofijo extends CI_Controller{
 			$this->Activofijo_model->delete_activofijo($idActivofijo,$params);
 			redirect(base_url()."activos/Cactivofijo");
 		}
+	}
+
+	/*
+     * Baja Activo Fijo
+     */
+	function baja()
+	{
+		$this->formValidation_baja();
+
+			if($this->form_validation->run())
+			{
+				date_default_timezone_set("America/La_Paz");
+				foreach ($_POST['idActivofijo'] as $idsActivos)
+				{
+					$params = array(
+						'idActivofijo' => $idsActivos,
+						'idMotivoBaja' => $this->input->post('idMotivo'),
+						'observaciones' => $this->input->post('observaciones'),
+						'fecha' => date('Y-m-d'),
+					);
+					$success = $this->Activofijo_model->add_baja($idsActivos, $params);
+				}
+
+				if ($success) {
+					$data['activo'] = $this->Activofijo_model->get_all_activofijo();
+					$data['mensaje'] = '';
+					redirect(base_url()."activos/Cactivofijo/list_bajas");
+				}
+			}
+			else
+			{
+				$data['activo'] = $this->Activofijo_model->get_all_activofijo();
+				$data['motivo'] = $this->Motivobaja_model->get_all_motivobaja();
+				$data['mensaje'] = '';
+
+				$this->load->view('layout/header');
+				$this->load->view('activos/vbaja',$data);
+				$this->load->view('layout/footer');
+			}
+	}
+
+	function list_bajas()
+	{
+		$data['bajas'] = $this->Activofijo_model->list_bajas();
+		$this->load->view('layout/header');
+		$this->load->view('activos/vlistabaja',$data);
+		$this->load->view('layout/footer');
 	}
 
 	/*
@@ -215,12 +369,12 @@ class Cactivofijo extends CI_Controller{
 			'idTipoActivoFijo' => trim($this->input->post('idTipoActivoFijo')),
 			'codigo' => trim($this->onlyOneSpace($this->input->post('codigo'))),
 			'numeroSerie' => trim($this->onlyOneSpace($this->input->post('numeroSerie'))),
-			'nombre' => trim($this->onlyOneSpace($this->input->post('nombre'))),
+			'nombre' => trim($this->onlyOneSpace($this->input->post('nombreActivo'))),
 			'descripcion' => trim($this->onlyOneSpace($this->input->post('descripcion'))),
 			'imagen' => trim($this->subirImagen()),
 			'idEstado' => trim($this->onlyOneSpace($this->input->post('idEstado'))),
 			'qr' => trim($this->generateQR($code)),
-			'fechaCompra' => date('Y-m-d H:i:s', time()),
+			'fechaCompra' => $this->input->post('fechaCompra'),
 			'valorInicial' =>trim($this->onlyOneSpace($this->input->post('valorInicial'))),
 			'idPersona' =>trim(($this->input->post('idPersona'))),
 			'idObtenido' =>trim(($this->input->post('idObtenido'))),
@@ -262,18 +416,28 @@ class Cactivofijo extends CI_Controller{
 	}
 
 	/**
-	 * Form validation method
+	 * Form validation method insert and update
 	 */
 	private function formValidation()
 	{
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('codigo','Código','required|callback_alpha_dash');
-		$this->form_validation->set_rules('numeroSerie','Número Serie','required|callback_alpha_dash');
-		$this->form_validation->set_rules('nombre','Nombre','required|callback_alpha_space');
+		$this->form_validation->set_rules('codigo','Código','required');
+		$this->form_validation->set_rules('numeroSerie','Número Serie','required|callback_alpha_dash|min_length[5]|max_length[35]');
+		$this->form_validation->set_rules('nombreActivo','Nombre','required|callback_alpha_space|min_length[6]|max_length[45]');
 		$this->form_validation->set_rules('descripcion','Descripción','required');
 		$this->form_validation->set_rules('valorInicial','Valor Inicial','required|numeric');
 		$this->form_validation->set_rules('idPersona','Nombre personal','required');
+	}
+
+	/**
+	 * Form validation method baja
+	 */
+	private function formValidation_baja()
+	{
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('observaciones','Observaciones','required|callback_alpha_dash');
 	}
 
 	/**
@@ -377,7 +541,7 @@ class Cactivofijo extends CI_Controller{
 	 */
 	public function generate_code_af()
 	{
-		$contarActivos = $this->Activofijo_model->activo_fijo_count() + 1;
+		$contarActivos = $this->Activofijo_model->activo_fijo_count_generar() + 1;
 		echo 'UEE-C-AF-'.$contarActivos;
 	}
 

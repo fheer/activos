@@ -35,7 +35,6 @@
 							<input type="hidden" id="idPersona" name="idPersona"
 								   value="<?php echo $this->session->userdata('s_idPersona'); ?>">
 							<select name="idTipoActivoFijo" id="idTipoActivoFijo" class="form-control">
-								<option>Seleccione Tipo</option>
 								<?php
 								foreach ($tipoactivofijo as $row) {
 									echo '<option value="' . $row['idTipoActivoFijo'] . '" >' . $row['tipo'] . '</option>';
@@ -66,7 +65,7 @@
 						<label for="nombre" class="col-md-4 control-label"><span class="text-danger">*</span> Nombre
 							Activo fijo</label>
 						<div class="col-md-3">
-							<input type="text" name="nombre" id="nombre"
+							<input type="text" name="nombreActivo" id="nombreActivo"
 								   value="<?php echo $this->input->post('nombre'); ?>" class="form-control"/>
 							<span class="text-danger"><?php echo form_error('nombre'); ?></span>
 						</div>
@@ -99,6 +98,15 @@
 						<div class="col-md-4">
 							<input type="text" name="valorInicial" id="valorInicial"
 								   value="<?php echo $this->input->post('valorInicial'); ?>" class="form-control"/>
+							<span class="text-danger"><?php echo form_error('valorInicial'); ?></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="valorInicial" class="col-md-4 control-label"><span class="text-danger">*</span>
+							Fecha Ingreso</label>
+						<div class="col-md-4">
+							<input type="date" name="fechaCompra" id="fechaCompra"
+								   value="<?php echo date('Y-m-d'); ?>" class="form-control"/>
 							<span class="text-danger"><?php echo form_error('valorInicial'); ?></span>
 						</div>
 					</div>
