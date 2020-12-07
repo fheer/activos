@@ -39,7 +39,7 @@ class Activofijo_model extends CI_Model
 	function get_all_activofijo()
 	{
 		$this->db->where('eliminado=',1);
-		$this->db->order_by('idTipoActivoFijo', 'asc');
+		$this->db->order_by('codigo', 'desc');
 		return $this->db->get('activofijo')->result_array();
 	}
 

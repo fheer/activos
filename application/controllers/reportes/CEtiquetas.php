@@ -1,5 +1,11 @@
 <?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
+// Cargamos la librería HTML2PDF
+require APPPATH.'third_party/vendor/autoload.php';
+
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 class CEtiquetas extends CI_Controller
 {
 	function __construct()
@@ -7,48 +13,84 @@ class CEtiquetas extends CI_Controller
 		parent::__construct();
 
 		$this->load->model('Activofijo_model');
-
-		require_once  APPPATH.'third_party/fpdf/Fpdf.php';
-		//require_once './assets/qrcode/qrcode.php';
-		$this->load->library('qrcode/Ciqrcode');
+		//$this->load->library('qrcode/Ciqrcode');
 	}
 
-	public function print_labels()
+	public function print_labels($activofijo)
 	{
-		$this->pdf = new FPDF();
-		$this->pdf->AddPage();
-		$this->pdf->AliasNbPages();
-		$this->pdf->SetLeftMargin(15);
-		$this->pdf->SetRightMargin(15);
-		$this->pdf->SetFillColor(300, 300, 300);
-		$this->pdf->SetFont('Arial', 'B', 12);
-		$this->pdf->Cell(30);
+		$html2pdf = new Html2Pdf();
+		$data = $this->Activofijo_model->get_activofijo($activofijo);
+		$i = 1;
+		$content = '';
+		//foreach ($data as $row) {
+			$img = '<img src="'. base_url().'fotos/qr/'.$data['qr'].'" width="100" height="100">';
+			$content .= '
+			  <table border>'.'
+				<tr>'.'
+				  <td style="width: 20%;">
+				  	<label align="center"><strong>U.E.E. - Cochabamba</strong></label>
+				  	<br>
+				  	<label align="center"><strong>U.A.F. '.date('Y').'</strong></label>
+				  	  <br>
+				   	<label align="center"><strong>Activo Fijo</strong></label>
+				   	<br>
+				   	<label align="center"><strong>Codigo: '.$data['codigo'].'</strong></label>
+				  </td>
+				  <td style="width: 80%;">'.$img.'</td>
+				</tr>
+			  '.
+			 '</table>';
+		//	$i++;
+		//}
 
+		$html2pdf->writeHTML($content);
+		$html2pdf->output();
+	}
+
+	public function print_all_labels()
+	{
+		$html2pdf = new Html2Pdf();
 		$data = $this->Activofijo_model->get_all_activofijo();
-
-		$this->pdf->Cell(10, 5, utf8_decode("UNIDAD EDUCATIVA DEL EJERCITO"), 'TBLR', 0, 'C', 1);
-		$this->pdf->Cell(40, 5, utf8_decode("Código"), 'TBLR', 0, 'L', 1);
-		$this->pdf->Cell(100, 5, utf8_decode("Características"), 'TBLR', 0, 'L', 1);
-		$this->pdf->Cell(30, 5, utf8_decode("Estado"), 'TBLR', 0, 'C', 1);
-		$this->pdf->Ln(5);
-		$this->pdf->SetFont('Arial', '', 12);
-		$indice = 1;
+		$i = 1;
+		$content = '<table border="1">';
 		foreach ($data as $row) {
-			$activoFijo = $this->Activofijo_model->get_activofijo($row['idActivofijo']);
-			$codigoActivo = $activoFijo['codigo'];
-			$descripcionActivo = $activoFijo['descripcion'];
-			$estado = $this->Estado_model->get_nombre_estado($activoFijo['idEstado']);
-			$descripcionEstado = $estado['estado'];
-			$qrcode = new QRcode($codigoActivo, 'H');
-			// error level : L, M, Q, H
-			$qrcode->displayFPDF($this->pdf, 115, 68, 14);
-			//$this->pdf->Cell(32,  * 2, '', 1, 0, 'C');
-			$this->pdf->Cell(10, 5, utf8_decode($indice), 'TBLR', 0, 'C', 1);
-			$this->pdf->Cell(40, 5, utf8_decode($codigoActivo), 'TBLR', 0, 'L', 1);
-			$this->pdf->Cell(100, 5, utf8_decode($descripcionActivo), 'TBLR', 0, 'L', 1);
-			$this->pdf->Cell(30, 5, utf8_decode($descripcionEstado), 'TBLR', 0, 'C', 1);
-			$this->pdf->Ln(5);
-			$indice++;
+		$img = '<img src="'. base_url().'fotos/qr/'.$row['qr'].'" width="100" height="100">';
+			if (($i == 1) ) {
+				$content .=
+					'<tr>'.'
+					  <td align="center" colspan="2">
+						<label ><strong>U.E.E. - Cochabamba</strong></label>
+						<br>
+						<label ><strong>U.A.F. '.date('Y').'</strong></label>
+						  <br>
+						<label ><strong>Activo Fijo</strong></label>
+						<br>
+						<label><strong>Código: '.$row['codigo'].'</strong></label>
+					  </td>
+					  <td>'.$img.'</td>
+					';
+			}else{
+				$content .=
+					'<td align="center" colspan="2">
+						<label ><strong>U.E.E. - Cochabamba</strong></label>
+						<br>
+						<label><strong>U.A.F. '.date('Y').'</strong></label>
+						 <br>
+						<label><strong>Activo Fijo</strong></label>
+						<br>
+						<label><strong>Codigo: '.$row['codigo'].'</strong></label>
+					</td>
+					<td ">'.$img.'</td>';
+				if ($i == 3){
+					$i = 1;
+					$content .= '</tr>';
+				}
+			}
+			$i++;
 		}
+		$content .= '</table>';
+		//print_r($content);
+		$html2pdf->writeHTML($content);
+		$html2pdf->output();
 	}
 }

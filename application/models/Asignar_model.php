@@ -10,14 +10,30 @@ class Asignar_model extends CI_Model
 	/*
      * function to add new asingned activo fijo
      */
-	function add_asginacion($params, $paramsUpdateIdNewOnwer, $idActivofijo, $idPersona)
+	function add_asginacion($params, $paramsUpdateIdNewOnwer, $idActivofijo, $idPersona, $newidPersona)
 	{
 		$this->db->trans_begin();
-		$this->db->insert('asignacion',$params);
-		//return $this->db->insert_id();
-		$this->db->where('idActivofijo',$idActivofijo);
-		$this->db->where('idPersona',$idPersona);
-		$this->db->update('asignacion',$paramsUpdateIdNewOnwer);
+		//echo $idActivofijo.' persona '.$newidPersona;
+		if ($this->find_asginacion($newidPersona, $idActivofijo)>0) {
+			$data = $this->find_idActivofijo_asginacion($idActivofijo);
+			print_r($this->find_idActivofijo_asginacion($idActivofijo));
+			date_default_timezone_set("America/La_Paz");
+			foreach ($data as $row){
+				$params = array(
+					'idNewOwner' => $newidPersona,
+					'fechaEntrega' => date('Y-m-d H:i:s', time()),
+				);
+				$this->db->where('idActivofijo',$row['idActivofijo']);
+				$this->db->where('idPersona',$row['idPersona']);
+				$this->db->update('asignacion',$params);
+			}
+		}else{
+			$this->db->insert('asignacion',$params);
+			//return $this->db->insert_id();
+			$this->db->where('idActivofijo',$idActivofijo);
+			$this->db->where('idPersona',$idPersona);
+			$this->db->update('asignacion',$paramsUpdateIdNewOnwer);
+		}
 		if ($this->db->trans_status() === FALSE){
 			//Hubo errores en la consulta, entonces se cancela la transacción.
 			$this->db->trans_rollback();
@@ -27,6 +43,34 @@ class Asignar_model extends CI_Model
 			$this->db->trans_commit();
 			return true;
 		}
+	}
+
+	/**
+	 * @param $idPersona
+	 * @param $idActivofijo
+	 * @return bool
+	 */
+	function find_asginacion($idPersona, $idActivofijo)
+	{
+		$this->db->select('COUNT(idPersona) AS contar');
+		$this->db->FROM('asignacion');
+		$this->db->WHERE('idPersona',$idPersona);
+		$this->db->WHERE('idActivofijo',$idActivofijo);
+		$resultado = $this->db->get();
+		$r = $resultado->row();
+		return $r->contar;
+	}
+
+
+	function find_idActivofijo_asginacion($idActivofijo)
+	{
+
+		$this->db->FROM('asignacion');
+		$this->db->WHERE('idActivofijo',$idActivofijo);
+		return $this->db->get()->result_array();
+		/*$resultado = $this->db->get();
+		return $resultado->num_rows() ;*/
+
 	}
 
 	/*

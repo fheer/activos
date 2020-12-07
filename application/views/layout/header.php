@@ -177,8 +177,8 @@
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/baja_activo">Baja</a></li>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista Activos Fijos</a></li>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/list_bajas">Lista Bajas</a></li>
-							<li><a href="<?php echo base_url(); ?>reportes/CfisicoAll/datos_fisico_valorado">Fisico Valorado</a></li>
-
+							<!--<li><a href="<?php echo base_url(); ?>reportes/CfisicoAll/datos_fisico_valorado">Fisico Valorado</a></li> -->
+							<li><a href="<?php echo base_url();?>reportes/CEtiquetas/print_all_labels" target="_blank">Imprimir Etiquetas</a></li>
 						</ul>
 					</li>
 					<?php
