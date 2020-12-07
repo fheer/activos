@@ -115,18 +115,19 @@ class CEntrega extends CI_Controller
 		$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.$nombre.'.pdf';
 		//$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.'acta'.$numeroActa.'.pdf';
 		//$url = $_SERVER['DOCUMENT_ROOT'].'/activos/actas/'.$nombre.'.pdf';
+		$idPersona = $this->session->userdata('s_idPersona');
 		$param = array(
+			'idPersona' => $idPersona,
 			'url' => $nombre,
 			'tipo' => 'E',
-			'fecha' => date('Y-m-d H:mm:ss'),
+			'fecha' => date('Y-m-d'),
 		);
 		$this->pdf->Output('F', $url);
-
+		$this->pdf->Output('I', 'acta');
 		$this->Actas_model->add_acta($param);
 
-		redirect(base_url().'acta/CActas/','refresh');
+		//redirect(base_url().'acta/CActas/','refresh');
 
-		$nombre = 'acta-devolucion'.$numeroActa.'.pdf';
 	}
 
 	public function mesCastellano($mes)

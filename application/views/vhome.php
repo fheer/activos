@@ -50,6 +50,9 @@ if (!empty($this->session->userdata('s_idUsuario'))) {
 			<section class="content">
 				<div class="row">
 					<div class="col-md-10">
+						<?php
+						if (!empty($personal)) {
+						?>
 						<div class="col-md-4 col-xs-6">
 							<div class="info-box">
 								<span class="info-box-icon bg-aqua"><i class="ion ion-ios-people"></i></span>
@@ -65,6 +68,9 @@ if (!empty($this->session->userdata('s_idUsuario'))) {
 							</div>
 							<!-- /.info-box -->
 						</div>
+						<?php
+						}
+						?>
 						<?php
 						 if (!empty($activos)) {
 						?>

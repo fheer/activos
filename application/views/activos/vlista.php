@@ -66,13 +66,18 @@
 												 Ver Depreciación
 											 </a>
 										 </li>
+										 <li><a href="<?php echo base_url().'reportes/CEtiquetas/print_labels/'.$row['idActivofijo']; ?>"
+												title="Imprimir Etiqueta" target="_blank">
+												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
+												 Imprimir Etiqueta
+											 </a>
+										 </li>
                       				     <li><a href="<?php echo base_url().'activos/Cactivofijo/Creport'.$row['idActivofijo']; ?>"
 												title="Imprimir formato">
 												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
 												 Imprimir
 											 </a>
 										 </li>
-
 									 </ul>
 								  </div>
 							</span>

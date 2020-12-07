@@ -21,7 +21,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="content-box-large">
-						<?php echo form_open(base_url().'asignar/CAsignar/add',array("class"=>"form-inline")); ?>
+						<?php echo form_open(  base_url().'asignar/CAsignar/add',array("class"=>"form-inline","target"=>"_blank")); ?>
 						<div class="panel-body">
 								<div class="form-group col-md-6 ">
 									<label>Seleccione al Empleado</label>

@@ -205,7 +205,6 @@ class Cactivofijo extends CI_Controller{
 			if($this->form_validation->run())
 			{
 				$params = $this->parametros();
-				echo 'llego aqui';
 				$this->Activofijo_model->update_activofijo($idActivofijo, $params);
 				redirect('activos/Cactivofijo/','refresh');
 			}

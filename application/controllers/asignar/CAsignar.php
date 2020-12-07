@@ -55,16 +55,16 @@ class CAsignar extends CI_Controller
 				$paramsUpdateIdNewOnwer = array(
 					'idNewOwner' => $this->input->post('idPersona'),
 					'idActivofijo' => $checkbox,
-					'fechaLiberacion' => date('Y-m-d H:i:s', time()),
 					'fechaEntrega' => date('Y-m-d H:i:s', time()),
 				);
-
-				$data['activofijo'] = $this->Asignar_model->add_asginacion($params, $paramsUpdateIdNewOnwer, $checkbox, $idPersona);
+				$newidPersona = $this->input->post('idPersona');
+				$data['activofijo'] = $this->Asignar_model->add_asginacion($params, $paramsUpdateIdNewOnwer, $checkbox, $idPersona, $newidPersona );
 				//$this->Activofijo_model->update_activofijo($checkbox, $paramsActivoFijo);
 			}
 			$idPersonaAsignada = $this->input->post('idPersona');
 			//redirigir a la lista de acta
 			redirect(base_url().'reportes/CEntrega/entrega_actas_pdf/'.$idPersonaAsignada,'refresh');
+			//redirect(base_url().'asignar/CAsignar/asignar/','refresh');*/
 		}else {
 			$data['persona'] = $this->Persona_model->get_all_persona();
 			$data['activofijo'] = $this->Activofijo_model->get_all_activofijo();
