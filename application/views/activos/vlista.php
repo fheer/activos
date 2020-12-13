@@ -1,3 +1,52 @@
+<?php
+if (!empty($this->session->userdata('s_idUsuario'))) {
+	$ciU = &get_instance();
+	$ciU->load->model('Usuario_model');
+	$ciU->load->model('Persona_model');
+
+	$usuario = $ciU->Usuario_model->get_usuario($this->session->userdata('s_idUsuario'));
+	$permisos = explode("#",$usuario['permiso']);
+	$espacios = count($permisos);
+	$personalMd5 = md5("Personal");
+	$activosFijosMd5 = md5("Activos");
+	$movimientosMd5 = md5("Movimientos");
+	$usuariosMd5 = md5("Usuarios");
+	$reportesMd5 = md5("Reportes");
+	$opcionesMd5 = md5("Opciones");
+	$perfilMd5 = md5("Perfil");
+
+	foreach ($permisos as $permisoMd5)
+	{
+		switch ($permisoMd5)
+		{
+			case $perfilMd5:
+				$perfil = "Perfil";
+				break;
+			case $personalMd5:
+				$personal = "Personal";
+				break;
+			case $activosFijosMd5:
+				$activos = "Activos";
+				break;
+			case $movimientosMd5:
+				$movimientos = "Movimientos";
+				break;
+			case $usuariosMd5:
+				$usuarios = "Usuarios";
+				break;
+			case $reportesMd5:
+				$reportes = "Reportes";
+				break;
+			case $opcionesMd5:
+				$opciones = "Opciones";
+				break;
+		}
+	}
+}
+if (empty($activos)){
+	redirect(base_url()."Chome/");
+}
+?>
 <div class="col-md-10">
 	<div class="content-box-large">
 		<div class="panel-body">
@@ -66,18 +115,25 @@
 												 Ver Depreciación
 											 </a>
 										 </li>
+										 <li><a href="<?php echo base_url().'reportes/CFisicoActivo/datos_transacciones/'.$row['idActivofijo']; ?> "
+												title="Imprimir formato" target="_blank">
+												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
+												 Físico Valorado
+											 </a>
+										 </li>
 										 <li><a href="<?php echo base_url().'reportes/CEtiquetas/print_labels/'.$row['idActivofijo']; ?>"
 												title="Imprimir Etiqueta" target="_blank">
 												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
 												 Imprimir Etiqueta
 											 </a>
 										 </li>
-                      				     <li><a href="<?php echo base_url().'activos/Cactivofijo/Creport'.$row['idActivofijo']; ?>"
+                      				     <!--<li><a href="<?php echo base_url().'activos/Cactivofijo/Creport/'.$row['idActivofijo']; ?>"
 												title="Imprimir formato">
 												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
 												 Imprimir
 											 </a>
-										 </li>
+										 </li>-->
+
 									 </ul>
 								  </div>
 							</span>

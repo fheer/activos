@@ -49,134 +49,83 @@ if (!empty($this->session->userdata('s_idUsuario'))) {
 		<div class="panel-body">
 			<section class="content">
 				<div class="row">
-					<div class="col-md-10">
-						<?php
-						if (!empty($personal)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-aqua"><i class="ion ion-ios-people"></i></span>
-								<div class="info-box-content">
-									<span><?php echo $countPersona; ?></span>
-									<span class="info-box-text">Personal</span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>Cpersona" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
+					<div class="col-md-6">
+						<div class="content-box-large">
+							<div class="panel-heading">
+								<div class="form-group col-sm-6">
+									<img src="<?php echo base_url().'fotos/personas/'.$persona['foto'];?>" width="60" height="80">
+									<br><br>
+									<h5>
+										<strong><?php echo $persona['apellidoPaterno'].' '.$persona['apellidoMaterno'].' '.$persona['nombres']; ?></php></strong>
+										<br>
+										<?php echo $cargoNombre['cargo']; ?>
+									</h5>
 								</div>
-								<!-- /.info-box-content -->
 							</div>
-							<!-- /.info-box -->
-						</div>
-						<?php
-						}
-						?>
-						<?php
-						 if (!empty($activos)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-success"><i class="ion ion-android-laptop"></i></span>
-								<div class="info-box-content">
-									<span class=""><?php echo $countActivo; ?></span>
-									<span class="info-box-text">Activos </span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>activos/Cactivofijo" target="_blank" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
-								</div>
-								<!-- /.info-box-content -->
+							<div class="panel-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group pull-left col-sm-6">
+										<label>
+											C.I.: <br><?php echo $persona['ci']; ?> <?php echo $persona['expedido']; ?>
+											<br>
+											Dirección:<br> <?php echo $persona['direccion']; ?>
+											<br>
+											Telefono: <br><?php echo $persona['telefono']; ?>
+											<br>
+											E-mail: <br><?php echo $persona['email']; ?>
+											<br>
+											Departamento: <br><?php echo $dpto['departamento']; ?>
+											<br>
+										</label>
+
+									</div>
+								</form>
 							</div>
-							<!-- /.info-box -->
-						</div>
-						<?php
-						}
-						?>
-						<?php
-						if (!empty($movimientos)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-blue-active"><i class="ion ion-arrow-swap"></i></span>
-								<div class="info-box-content">
-									<span class="ion ion-ios-desktop-outline"></span>
-									<span class="info-box-text">Movimientos</span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>Cpersona" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
-								</div>
-								<!-- /.info-box-content -->
-							</div>
-							<!-- /.info-box -->
-						</div>
-							<?php
-						}
-						?>
-						<?php
-						if (!empty($usuarios)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-light-blue-active"><i class="ion ion-android-contact"></i></span>
-								<div class="info-box-content">
-									<span ><?php echo $countUsuario; ?></span>
-									<span class="info-box-text">Usuarios </span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>Cpersona" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
-								</div>
-								<!-- /.info-box-content -->
-							</div>
-							<!-- /.info-box -->
-						</div>
-						<?php
-						}
-						?>
-						<?php
-						if (!empty($reportes)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-red-active"><i class="ion ion-android-print"></i></span>
-								<div class="info-box-content">
-									<span class="ion ion-ios-desktop-outline"></span>
-									<span class="info-box-text">Reportes</span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>Cpersona" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
-								</div>
-								<!-- /.info-box-content -->
-							</div>
-							<!-- /.info-box -->
-						</div>
-							<?php
-						}
-						?>
-						<?php
-						if (!empty($opciones)) {
-						?>
-						<div class="col-md-4 col-xs-6">
-							<div class="info-box">
-								<span class="info-box-icon bg-gray-active"><i class="ion ion-ios-gear"></i></span>
-								<div class="info-box-content">
-									<span class="ion ion-ios-desktop-outline"></span>
-									<span class="info-box-text">Opciones</span>
-									<span class="info-box-number">
-												<a href="<?php echo base_url(); ?>Cpersona" class="small-box-footer">Mostrar <i
-														class="fa fa-arrow-circle-right"></i></a>
-											</span>
-								</div>
-								<!-- /.info-box-content -->
-							</div>
-							<!-- /.info-box -->
 						</div>
 					</div>
-					<?php
-					}
-					?>
+					<div class="col-md-6">
+						<div class="content-box-large">
+							<div class="panel-heading">
+								<div class="panel-title"><strong>Opciones</strong></div>
+							</div>
+							<div class="panel-body">
+								<?php echo form_open(base_url().'CPersona/updatePerson/'.$persona['idPersona'],
+									array("class"=>"form-inline")); ?>
+								<input type="hidden" name="destino" id="destino" value="P">
+								<button type="submit" class="btn btn-primary"><i class="fa fa-male"></i>
+									Cambiar Datos Personales
+								</button>
+								<?php echo form_close(); ?>
+								<br>
+								<?php echo form_open(base_url().'perfil/CPerfil/edit/'.$persona['idPersona'],
+									array("class"=>"form-inline")); ?>
+								<button type="submit" class="btn btn-primary"><i class="fa fa-user"></i>
+									Cambiar Datos Inicio de Sesión
+								</button>
+								<?php echo form_close(); ?>
+								<br>
+								<?php echo form_open(base_url().'perfil/CPerfil/liberar/'.$persona['idPersona'],
+									array("class"=>"form-inline")); ?>
+								<button type="submit" class="btn btn-primary"><i class="fa fa-desktop"></i>
+									Ver Activos Fijos Asignados
+								</button>
+								<?php echo form_close(); ?>
+								<br>
+								<?php echo form_open(base_url().'perfil/CPerfil/my_actas/'.$persona['idPersona'],
+									array("class"=>"form-inline")); ?>
+								<button type="submit" class="btn btn-primary"><i class="fa fa-desktop"></i>
+									Ver Actas
+								</button>
+								<?php echo form_close(); ?>
+								<br>
+								<a href="<?php echo base_url(); ?>reportes/Cfisico/datos_fisico_valorado/<?php echo $persona['idPersona'];?>"
+								   class="btn btn-primary" target="_blank"><i class="fa fa-desktop"></i> Físico Valorado</a>
+
+							</div>
+						</div>
+
+						<?php echo form_close(); ?>
+					</div>
 				</div>
 				<br><br><br><br><br><br><br><br>
 			</section>

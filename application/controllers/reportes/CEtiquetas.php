@@ -89,8 +89,8 @@ class CEtiquetas extends CI_Controller
 			$i++;
 		}
 		$content .= '</table>';
-		//print_r($content);
-		$html2pdf->writeHTML($content);
-		$html2pdf->output();
+		print_r($content);
+		//$html2pdf->writeHTML($content);
+		//$html2pdf->output();
 	}
 }

@@ -19,8 +19,7 @@ class CFisicoAll extends CI_Controller
 		//$pdf->Header();
 		//Table with 20 rows and 4 columns
 		$pdf->SetFont('Arial','B',12);
-		$pdf->Cell(30);
-		$pdf->Cell(120,10,utf8_decode('Fisico Valorado'),0,0,'C');
+		$pdf->Cell(180,10,utf8_decode('Fisico Valorado Unidad Educativa del Ejército'),0,0,'C');
 		$pdf->Ln(10);
 		$pdf->SetWidths(array(10,50,50,30,50));
 

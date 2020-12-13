@@ -22,7 +22,7 @@ class Usuario_model extends CI_Model
      */
 	function get_name_all_usuario_personal()
 	{
-		$this->db->select(" concat_ws(' ', IFNULL(P.apellidoPaterno,''), IFNULL(P.apellidoMaterno,''), P.nombres) As nombre, 
+		$this->db->select("concat_ws(' ', IFNULL(P.apellidoPaterno,''), IFNULL(P.apellidoMaterno,''), P.nombres) As nombre, 
 						  P.foto, U.user, U.permiso, U.idUsuario");
 		$this->db->from("persona P");
 		$this->db->join('usuario U','U.idPersona = P.idPersona', 'inner');
