@@ -12,12 +12,13 @@ class Cactivofijo extends CI_Controller{
 		$this->load->model('Departamento_model');
 		$this->load->model('Motivobaja_model');
 		$this->load->model('Transacciones_model');
+		$this->load->model('Depreciacion_model');
 		$this->load->library('qrcode/Ciqrcode');
 	}
 
 	public function get_data_depreciacion($idActivofijo)
 	{
-		$data['depreciacion'] = $this->Transacciones_model->get_data_depreciacion($idActivofijo);
+		$data['depreciacion'] = $this->Depreciacion_model->get_data_depreciacion($idActivofijo);
 		$data['activofijo'] = $this->Activofijo_model->get_activofijo($idActivofijo);
 		$data_tipo = $this->Activofijo_model->get_activofijo($idActivofijo);
 		$idTipoActivoFijo = $data_tipo['idTipoActivoFijo'];
@@ -87,10 +88,8 @@ class Cactivofijo extends CI_Controller{
 	 */
 	function listadepreciacion($vidaUtil, $valorInicial)
 	{
-		//$idActivofijo = $this->input->post('idActivofijo');
-		$data['activo'] = $this->Activofijo_model->get_all_activofijo();
-		//$data['motivo'] = $this->Motivobaja_model->get_all_motivobaja();
 
+		$data['activo'] = $this->Activofijo_model->get_all_activofijo();
 		$data['mensaje'] = '';
 
 		$this->load->view('layout/header');
@@ -130,14 +129,26 @@ class Cactivofijo extends CI_Controller{
 					{
 						$valorAcumuladoDepreciacion = $valorDepreciacion * $i;
 						$params = array(
+							'tipoTransaccion' => 'Alta',
+							'idActivofijo' => $idActivofijo,
+							'fecha' => date('Y-m-d'),
+						);
+						$params = array(
 							'valorInicial' => $valorInicial,
 							'valorDepreciacion' => $valorDepreciacion,
 							'valorAcumuladoDepreciacion' => $valorAcumuladoDepreciacion,
 							'idActivofijo' => $idActivofijo,
 						);
-						$this->Transacciones_model->add_transacciones($params);
+						$this->Depreciacion_model->add_depreciacion($params);
 					}
-					echo $idActivofijo.'<br>';
+					date_default_timezone_set("America/La_Paz");
+					$valorAcumuladoDepreciacion = $valorDepreciacion * $i;
+					$params = array(
+						'tipoTransaccion' => 'Alta',
+						'idActivofijo' => $idActivofijo,
+						'fecha' => date('Y-m-d'),
+					);
+					$this->Transacciones_model->add_transacciones($params);
 					redirect('activos/Cactivofijo/index');
 				}else{
 					$data['tipoactivofijo'] = $this->Activofijo_model->get_all_tipoactivofijo();
@@ -271,6 +282,14 @@ class Cactivofijo extends CI_Controller{
 						'fecha' => date('Y-m-d'),
 					);
 					$success = $this->Activofijo_model->add_baja($idsActivos, $params);
+
+					//date_default_timezone_set("America/La_Paz");
+					$params = array(
+						'tipoTransaccion' => 'Baja',
+						'idActivofijo' => $idsActivos,
+						'fecha' => date('Y-m-d'),
+					);
+					$this->Transacciones_model->add_transacciones($params);
 				}
 
 				if ($success) {

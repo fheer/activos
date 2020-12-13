@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Transacciones_model extends CI_Model
+class Depreciacion_model extends CI_Model
 {
 	function __construct()
 	{
@@ -13,10 +13,10 @@ class Transacciones_model extends CI_Model
 	 */
 	function get_data_depreciacion($idActivofijo)
 	{
-		$this->db->select('AF.nombre, AF.codigo, AF.fechaCompra, T.valorInicial, T.valorDepreciacion, T.valorAcumuladoDepreciacion');
-		$this->db->from('transacciones T, activofijo AF');
-		$this->db->where('T.idActivofijo=AF.idActivofijo');
-		$this->db->where('T.idActivofijo',$idActivofijo);
+		$this->db->select('AF.nombre, AF.codigo, AF.fechaCompra, D.valorInicial, D.valorDepreciacion, D.valorAcumuladoDepreciacion');
+		$this->db->from('depreciacion D, activofijo AF');
+		$this->db->where('D.idActivofijo=AF.idActivofijo');
+		$this->db->where('D.idActivofijo',$idActivofijo);
 
 		return $this->db->get()->result_array();
 		//return $this->db->get()->row_array();
@@ -57,9 +57,9 @@ class Transacciones_model extends CI_Model
 	/*
      * function to add new transaccione
      */
-	function add_transacciones($params)
+	function add_depreciacion($params)
 	{
-		return $this->db->insert('transacciones',$params);
+		return $this->db->insert('depreciacion',$params);
 		//return $this->db->insert_id();
 	}
 

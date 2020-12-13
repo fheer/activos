@@ -1,4 +1,52 @@
+<?php
+if (!empty($this->session->userdata('s_idUsuario'))) {
+	$ciU = &get_instance();
+	$ciU->load->model('Usuario_model');
+	$ciU->load->model('Persona_model');
 
+	$usuario_data = $ciU->Usuario_model->get_usuario($this->session->userdata('s_idUsuario'));
+	$permisos = explode("#",$usuario_data['permiso']);
+	$espacios = count($permisos);
+	$personalMd5 = md5("Personal");
+	$activosFijosMd5 = md5("Activos");
+	$movimientosMd5 = md5("Movimientos");
+	$usuariosMd5 = md5("Usuarios");
+	$reportesMd5 = md5("Reportes");
+	$opcionesMd5 = md5("Opciones");
+	$perfilMd5 = md5("Perfil");
+
+	foreach ($permisos as $permisoMd5)
+	{
+		switch ($permisoMd5)
+		{
+			case $perfilMd5:
+				$perfil = "Perfil";
+				break;
+			case $personalMd5:
+				$personal = "Personal";
+				break;
+			case $activosFijosMd5:
+				$activos = "Activos";
+				break;
+			case $movimientosMd5:
+				$movimientos = "Movimientos";
+				break;
+			case $usuariosMd5:
+				$usuariosPermiso = "Usuarios";
+				break;
+			case $reportesMd5:
+				$reportes = "Reportes";
+				break;
+			case $opcionesMd5:
+				$opciones = "Opciones";
+				break;
+		}
+	}
+}
+if (empty($usuariosPermiso)){
+	redirect(base_url()."Chome/");
+}
+?>
 <div class="col-md-10">
 	<div class="content-box-large">
 		<?php
@@ -155,7 +203,7 @@
 										?>
 									</label>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label>
 										<?php
 										if (!empty($reportes))
@@ -172,7 +220,7 @@
 										}
 										?>
 									</label>
-								</div>
+								</div>-->
 								<div class="form-group">
 									<label>
 										<?php

@@ -43,20 +43,20 @@ if (!empty($this->session->userdata('s_idUsuario'))) {
 		}
 	}
 }
-if (empty($personal)){
+if (empty($opciones)){
 	redirect(base_url()."Chome/");
 }
 ?>
 <div class="col-md-10">
 	<div class="content-box-large">
 		<div class="panel-body">
-			<div class="panel-title">Lista del personal</div>
+			<div class="panel-title">Lista Tipo Activos Fijos</div>
 			<br>
 			<div class="pull-left">
-				<a href="<?php echo base_url();?>CPersona/insertPerson" class="btn btn-primary btn-sm">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Registro
+				<a href="<?php echo site_url('tipo/CTipoActivo/insert_tipo'); ?>" class="btn btn-primary btn-sm">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Tipo de Activo Fijo
 				</a>
-				<a href="<?php echo base_url();?>reportes/CreportePersona/datosPersona" target="_blank" class="btn btn-success btn-sm">
+				<a href="<?php echo base_url();?>reportes/CReporteTipoActivo/tipo_activos_fijos" target="_blank" class="btn btn-success btn-sm">
 					<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Lista
 				</a>
 				<br/><br/>
@@ -65,32 +65,20 @@ if (empty($personal)){
 			<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
 				<thead>
 				<tr>
-					<th width="5%" align="center">No</th>
-					<th width="5%">Ci</th>
-					<th width="15%">Nombres</th>
-					<th width="15%">Apellido Paterno</th>
-					<th width="15%">Apellido Materno</th>
-					<th width="20%">Dirección</th>
-					<th width="5%">Telefono</th>
-					<th width="10%">Correo Electrónico</th>
-					<th width="10%">Foto</th>
-					<th width="10%"></th>
+					<th width="10%" align="center">No</th>
+					<th width="40%">Tipo de Activo</th>
+					<th width="40%">Vida Util</th>
+					<th width="10%">Opciones</th>
 				</tr>
 				</thead>
 				<tbody>
-				<?php $i = 1; foreach ($persona as $p) { ?>
+				<?php $i = 1; foreach ($tipoactivo  as $row) { ?>
 					<tr class="gradeA">
 						<td align="center"><?php echo $i; ?></td>
-						<td><?php echo $p['ci']; ?></td>
-						<td><?php echo $p['nombres']; ?></td>
-						<td><?php echo $p['apellidoPaterno']; ?></td>
-						<td><?php echo $p['apellidoMaterno']; ?></td>
-						<td><?php echo $p['direccion']; ?></td>
-						<td><?php echo $p['telefono']; ?></td>
-						<td><?php echo $p['email']; ?></td>
-						<td><img src="<?php echo base_url().'fotos/personas/'.$p['foto'];?>" width="60" height="80"></td>
-						<td>
-							<span class="pull-right">
+						<td><?php echo $row['tipo']; ?></td>
+						<td><?php echo $row['vidautil']; ?></td>
+						<td align="center">
+							<span class="pull-center">
 								  <div class="dropdown">
 									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
 											data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -99,22 +87,16 @@ if (empty($personal)){
 									</button>
 									 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
 										 <li>
-											 <a href="<?php echo base_url().'CPersona/updatePerson/'.$p['idPersona']; ?>"
+											 <a href="<?php echo base_url().'tipo/CTipoActivo/update_tipo/'.$row['idTipoActivoFijo']; ?>"
 												title="Modificar informacion" onClick="">
 												 <i style="color:#555;" class="glyphicon glyphicon-edit"></i> Modificar
 											 </a>
 										 </li>
                       					 <li>
 											 <a href=""data-toggle="modal" data-target="#modalDelete"
-												data-whatever="<?php echo $p['idPersona']; ?>"
-												title="Eliminar Cdte">
+												data-whatever="<?php echo $row['idTipoActivoFijo']; ?>"
+												title="Eliminar Activo Fijo">
 											 <i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar
-											 </a>
-										 </li>
-                      				     <li><a href="<?php echo base_url().'reportes/CreportePersona/datosPersona_id/'.$p['idPersona']; ?>"
-												title="Imprimir formato" target="_blank">
-												 <i class="glyphicon glyphicon-print" style="color:#006699"></i>
-												 Imprimir
 											 </a>
 										 </li>
 									 </ul>
@@ -128,7 +110,7 @@ if (empty($personal)){
 		</div>
 	</div>
 	<!-- Delete modal -->
-	<div class="modal fade" id="modalDelete" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
+	<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -136,14 +118,14 @@ if (empty($personal)){
 					<h4 class="modal-title" id="modalDeleteLabel">Eliminar</h4>
 				</div>
 				<div class="modal-body">
-					<?php echo form_open(base_url().'CPersona/removeNew'); ?>
+					<?php echo form_open(base_url().'tipo/CTipoActivo/remove'); ?>
 					<h4 align="center"></h4>
 					<div class="form-group">
-						<input type="hidden"  class="form-control" name="idPersonaDelete" id="idPersonaDelete">
+						<input type="hidden"  class="form-control" name="idTipoActivoFijoDelete" id="idTipoActivoFijoDelete">
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" id="btnEliminar" class="btn btn-primary pull-left">Eliminar</button>
+					<button type="submit" id="btnEliminar" class="btn btn-primary">Eliminar</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				</div>
 				<?php echo form_close(); ?>
@@ -153,6 +135,5 @@ if (empty($personal)){
 	<script type="text/javascript">
 		var baseurl = "<?php echo base_url(); ?>";
 	</script>
-
 
 

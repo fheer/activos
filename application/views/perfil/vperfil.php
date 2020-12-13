@@ -85,7 +85,7 @@
 						<?php echo form_close(); ?>
 						<br>
 						<a href="<?php echo base_url(); ?>reportes/Cfisico/datos_fisico_valorado/<?php echo $persona['idPersona'];?>"
-						   class="btn btn-primary" target="_blank"><i class="fa fa-desktop"></i>Fisico Valorado</a>
+						   class="btn btn-primary" target="_blank"><i class="fa fa-desktop"></i> Físico Valorado</a>
 
 					</div>
 				</div>

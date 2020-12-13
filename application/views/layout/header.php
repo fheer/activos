@@ -177,8 +177,8 @@
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/baja_activo">Baja</a></li>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/">Lista Activos Fijos</a></li>
 							<li><a href="<?php echo base_url();?>activos/Cactivofijo/list_bajas">Lista Bajas</a></li>
-							<!--<li><a href="<?php echo base_url(); ?>reportes/CfisicoAll/datos_fisico_valorado">Fisico Valorado</a></li> -->
 							<li><a href="<?php echo base_url();?>reportes/CEtiquetas/print_all_labels" target="_blank">Imprimir Etiquetas</a></li>
+							<li><a href="<?php echo base_url(); ?>reportes/CfisicoAll/datos_fisico_valorado" target="_blank">Fisico Valorado</a></li>
 						</ul>
 					</li>
 					<?php
@@ -212,7 +212,7 @@
 						</a>
 						<!-- Sub menu -->
 						<ul>
-							<li><a href="<?php echo base_url();?>usuarios/Cusuario">Lista Usuarios</a></li>
+							<li><a href="<?php echo base_url();?>usuarios/CUsuario">Lista Usuarios</a></li>
 						</ul>
 					</li>
 					<?php
@@ -260,6 +260,11 @@
 						<ul>
 							<li><a href="<?php echo base_url();?>estado/CEstado/">Estado</a></li>
 						</ul>
+						<!-- Sub menu -->
+						<ul>
+							<li><a href="<?php echo base_url();?>tipo/CTipoActivo/">Tipo Activo Fijo</a></li>
+						</ul>
+
 					</li>
 					<?php
 					}

@@ -9,6 +9,7 @@ class CAsignar extends CI_Controller
 		$this->load->model('Persona_model');
 		$this->load->model('Asignar_model');
 		$this->load->library('qrcode/Ciqrcode');
+		$this->load->model('Transacciones_model');
 	}
 
 	/*
@@ -60,6 +61,13 @@ class CAsignar extends CI_Controller
 				$newidPersona = $this->input->post('idPersona');
 				$data['activofijo'] = $this->Asignar_model->add_asginacion($params, $paramsUpdateIdNewOnwer, $checkbox, $idPersona, $newidPersona );
 				//$this->Activofijo_model->update_activofijo($checkbox, $paramsActivoFijo);
+				date_default_timezone_set("America/La_Paz");
+				$params = array(
+					'tipoTransaccion' => 'Asignación',
+					'idActivofijo' => $checkbox,
+					'fecha' => date('Y-m-d'),
+				);
+				$this->Transacciones_model->add_transacciones($params);
 			}
 			$idPersonaAsignada = $this->input->post('idPersona');
 			//redirigir a la lista de acta
@@ -92,10 +100,17 @@ class CAsignar extends CI_Controller
 					'idNewOwner' => $userActivos,
 				);
 				$data['activofijo'] = $this->Asignar_model->update_asginacion($params, $checkbox, $idPersona);
+				date_default_timezone_set("America/La_Paz");
+				$params = array(
+					'tipoTransaccion' => 'Devolución',
+					'idActivofijo' => $checkbox,
+					'fecha' => date('Y-m-d'),
+				);
 			}
 			//$idPersonaAsignada = $this->input->post('idPersona');
 			//redirigir a la lista de acta
 			//redirect(base_url().'perfil/CPerfil/','refresh');
+			$this->Transacciones_model->add_transacciones($params);
 			redirect(base_url().'reportes/CDevolver/delvover_actas_pdf/'.$idPersona,'refresh');
 		}else {
 			$data['persona'] = $this->Persona_model->get_all_persona();

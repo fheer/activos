@@ -48,6 +48,7 @@ class Activofijo_model extends CI_Model
      */
 	function get_all_tipoactivofijo()
 	{
+		$this->db->where('eliminado',1);
 		$this->db->order_by('tipo', 'asc');
 		return $this->db->get('tipoactivofijo')->result_array();
 	}
@@ -67,7 +68,8 @@ class Activofijo_model extends CI_Model
      */
 	function get_all_estado()
 	{
-		//$this->db->order_by('esatado', 'asc');
+		$this->db->where('eliminado',1);
+		$this->db->order_by('estado', 'asc');
 		return $this->db->get('estado')->result_array();
 	}
 
@@ -138,7 +140,6 @@ class Activofijo_model extends CI_Model
 
 	function get_bajas_date($de, $hasta)
 	{
-
 		$this->db->select('AF.codigo, AF.nombre, MB.motivo, B.fecha');
 		$this->db->from('baja B');
 		$this->db->join('activofijo AF','AF.idActivofijo=B.idActivofijo','inner');

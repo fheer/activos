@@ -1470,7 +1470,7 @@ a:focus {
   position: relative;
   text-align: center;
   padding: 3px 0;
-  color: #fff;
+  color: #ecf0f5;
   color: rgba(255, 255, 255, 0.8);
   display: block;
   z-index: 10;
@@ -1478,7 +1478,7 @@ a:focus {
   text-decoration: none;
 }
 .small-box > .small-box-footer:hover {
-  color: #fff;
+  color: #ecf0f5;
   background: rgba(0, 0, 0, 0.15);
 }
 .small-box h3 {
@@ -1818,7 +1818,7 @@ a:focus {
   border-bottom-left-radius: 3px;
   border-top: 1px solid #f4f4f4;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: #ecf0f5;
 }
 .chart-legend {
   margin: 10px 0;

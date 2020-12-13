@@ -62,21 +62,27 @@ if (empty($opciones)){
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-md-6">
-					<?php echo form_open_multipart(base_url() . 'estado/CEstado/edit', array("class" => "form-horizontal")); ?>
+					<?php echo form_open_multipart(base_url() . 'tipo/CTipoActivo/add', array("class" => "form-horizontal")); ?>
 					<div class="form-group">
-						<label for="cargo" class="col-md-4 control-label"><span class="text-danger">*</span>
-							Estado</label>
-						<div class="col-md-4">
-							<input type="hidden" class="form-control input-sm" name="idEstado" id="idEstado"
-								   value="<?php echo $estado['idEstado']; ?>"/>
-							<input type="text" class="form-control input-sm" name="estado" id="estado"
-								   value="<?php echo $estado['estado']; ?>"/>
-							<span class="text-danger"><?php echo form_error('cargo'); ?></span>
+						<label for="cargo" class="col-md-5 control-label"><span class="text-danger">*</span>
+							Nombre Tipo Activo Fijo</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control input-sm" name="tipo" id="tipo"
+								   value="<?php echo $this->input->post('tipo'); ?>"/>
+							<span class="text-danger"><?php echo form_error('tipo'); ?></span>
 						</div>
 					</div>
-
+					<div class="form-group">
+						<label for="cargo" class="col-md-5 control-label"><span class="text-danger">*</span>
+							Vida Util</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-sm" name="vidautil" id="vidautil"
+								   value="<?php echo $this->input->post('vidautil'); ?>"/>
+							<span class="text-danger"><?php echo form_error('vidautil'); ?></span>
+						</div>
+					</div>
 					<div class="box-footer">
-						<a href="<?php echo base_url(); ?>estado/CEstado/"
+						<a href="<?php echo base_url(); ?>tipo/CTipoActivo/"
 						   class="btn btn btn-default btn-md pull-right">
 							<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
 						</a>
@@ -93,6 +99,5 @@ if (empty($opciones)){
 </div>
 </div>
 </div>
-
 
 
